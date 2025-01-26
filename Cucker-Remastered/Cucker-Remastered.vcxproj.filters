@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\Engine">
+      <UniqueIdentifier>{9243db31-cb2b-482f-b740-43198eff6659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\System">
+      <UniqueIdentifier>{66743fde-c700-428e-b0d3-d25c638ee9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Component">
+      <UniqueIdentifier>{c6bb6675-2587-41c3-bdb0-a229206771ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Utility">
+      <UniqueIdentifier>{f7029468-ba18-4207-80e7-febb9cd75b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Screen">
+      <UniqueIdentifier>{41e6eaf8-b5bf-4aa2-a6fc-7bed9a340ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Interface">
+      <UniqueIdentifier>{0c50e101-dcc3-46f0-b062-fae24f2a1f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Cucker">
+      <UniqueIdentifier>{e5cc9ce5-700d-4f02-bab3-bcbb5a5e5581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Cucker\Interfaces">
+      <UniqueIdentifier>{6b91ad4f-8cf0-4cf8-baa2-549c7930a162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Canvas">
+      <UniqueIdentifier>{1beed3f5-519e-4df5-8700-e93cfa94416d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Widget">
+      <UniqueIdentifier>{625288e9-edf4-4fa9-9686-213e39b42a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\UI">
+      <UniqueIdentifier>{7e4c994a-74cb-43e0-a194-41f45753faae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Hpet">
+      <UniqueIdentifier>{a580e1cc-3665-4328-8a32-6dd971c41d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\UI\Animator">
+      <UniqueIdentifier>{a7cdbdc2-c337-462f-a912-6c067aca350c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\IO">
+      <UniqueIdentifier>{9f351a37-d9ae-4351-97cf-306dcd1fc31d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Widget\Modules">
+      <UniqueIdentifier>{ad49fbd2-ba4d-43e9-a6ed-7d32fba3423b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Cucker\Adofai">
+      <UniqueIdentifier>{d1ec5e9b-fbee-40ce-8131-262b32a39efa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Cucker-Remastered.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenBuffer.cpp">
+      <Filter>头文件\Engine\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>头文件\Engine\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="LogOverlay.cpp">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsOverlay.cpp">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleFunction.cpp">
+      <Filter>头文件\Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>头文件\Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Chroma.cpp">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="PosCalculator.cpp">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>头文件\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>头文件\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Defines.cpp">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleSetting.cpp">
+      <Filter>头文件\Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScreen.cpp">
+      <Filter>头文件\Cucker\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>头文件\Engine\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferDispatcher.cpp">
+      <Filter>头文件\Engine\Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay.cpp">
+      <Filter>头文件\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>头文件\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="HpetClock.cpp">
+      <Filter>头文件\Engine\Hpet</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyFrame.cpp">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Timeline.cpp">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerScreen.cpp">
+      <Filter>头文件\Cucker\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="TextInputControl.cpp">
+      <Filter>头文件\Engine\Widget\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScreen.cpp">
+      <Filter>头文件\Cucker\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="AdofaiChart.cpp">
+      <Filter>头文件\Cucker\Adofai</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetBase.cpp">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="AdofaiSetupScreen.cpp">
+      <Filter>头文件\Cucker\Adofai</Filter>
+    </ClCompile>
+    <ClCompile Include="AdofaiTweaksChartScreen.cpp">
+      <Filter>头文件\Cucker\Adofai</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine.h">
+      <Filter>头文件\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenBuffer.h">
+      <Filter>头文件\Engine\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>头文件\Engine\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="LogOverlay.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsOverlay.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleFunction.h">
+      <Filter>头文件\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>头文件\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Chroma.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="BitStorage.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="PosCalculator.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>头文件\Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSetting.h">
+      <Filter>头文件\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleThread.h">
+      <Filter>头文件\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>头文件\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Converter.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Cucker.h">
+      <Filter>头文件\Cucker</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScreen.h">
+      <Filter>头文件\Cucker\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>头文件\Engine\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferDispatcher.h">
+      <Filter>头文件\Engine\Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>头文件\Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay.h">
+      <Filter>头文件\Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="HpetClock.h">
+      <Filter>头文件\Engine\Hpet</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyFrame.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="EasingFunction.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Timeline.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpolate.h">
+      <Filter>头文件\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerScreen.h">
+      <Filter>头文件\Cucker\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Date.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="NulStream.h">
+      <Filter>头文件\Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationBuilder.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Clipboard.h">
+      <Filter>头文件\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScreen.h">
+      <Filter>头文件\Cucker\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimateValue.h">
+      <Filter>头文件\Engine\UI\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="TextInputControl.h">
+      <Filter>头文件\Engine\Widget\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>头文件\Cucker</Filter>
+    </ClInclude>
+    <ClInclude Include="AdofaiChart.h">
+      <Filter>头文件\Cucker\Adofai</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetBase.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="InputCondition.h">
+      <Filter>头文件\Engine\Widget\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AdofaiSetupScreen.h">
+      <Filter>头文件\Cucker\Adofai</Filter>
+    </ClInclude>
+    <ClInclude Include="AdofaiTweaksChartScreen.h">
+      <Filter>头文件\Cucker\Adofai</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{39c0aee4-783a-403b-88af-755e504bf21d}</ProjectGuid>
+    <RootNamespace>CuckerRemastered</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\!MyProject\C++Project\!C++库\rapidjson\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\!MyProject\C++Project\!C++库\rapidjson\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\!MyProject\C++Project\!C++库\rapidjson\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\!MyProject\C++Project\!C++库\rapidjson\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AdofaiChart.cpp" />
+    <ClCompile Include="AdofaiSetupScreen.cpp" />
+    <ClCompile Include="AdofaiTweaksChartScreen.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="BufferDispatcher.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="Chroma.cpp" />
+    <ClCompile Include="ConsoleSetting.cpp" />
+    <ClCompile Include="Cucker-Remastered.cpp" />
+    <ClCompile Include="Defines.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="FpsOverlay.cpp" />
+    <ClCompile Include="HpetClock.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="KeyFrame.cpp" />
+    <ClCompile Include="Label.cpp" />
+    <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="LogOverlay.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="MainScreen.cpp" />
+    <ClCompile Include="Overlay.cpp" />
+    <ClCompile Include="PosCalculator.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenBuffer.cpp" />
+    <ClCompile Include="ConsoleFunction.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="TestScreen.cpp" />
+    <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="Timeline.cpp" />
+    <ClCompile Include="TimerScreen.cpp" />
+    <ClCompile Include="TextInputControl.cpp" />
+    <ClCompile Include="WidgetBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AdofaiChart.h" />
+    <ClInclude Include="AdofaiTweaksChartScreen.h" />
+    <ClInclude Include="AdofaiSetupScreen.h" />
+    <ClInclude Include="AnimateValue.h" />
+    <ClInclude Include="AnimationBuilder.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="BitStorage.h" />
+    <ClInclude Include="BufferDispatcher.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="Chroma.h" />
+    <ClInclude Include="Clipboard.h" />
+    <ClInclude Include="ConsoleSetting.h" />
+    <ClInclude Include="ConsoleThread.h" />
+    <ClInclude Include="Container.h" />
+    <ClInclude Include="Converter.h" />
+    <ClInclude Include="Cucker.h" />
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="EasingFunction.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="FpsOverlay.h" />
+    <ClInclude Include="HpetClock.h" />
+    <ClInclude Include="InputCondition.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Interpolate.h" />
+    <ClInclude Include="KeyFrame.h" />
+    <ClInclude Include="Label.h" />
+    <ClInclude Include="Layer.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="LogOverlay.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="MainScreen.h" />
+    <ClInclude Include="NulStream.h" />
+    <ClInclude Include="Overlay.h" />
+    <ClInclude Include="Slider.h" />
+    <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="TestScreen.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="PosCalculator.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenBuffer.h" />
+    <ClInclude Include="Signal.h" />
+    <ClInclude Include="TextBox.h" />
+    <ClInclude Include="Timeline.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="ConsoleFunction.h" />
+    <ClInclude Include="TimerScreen.h" />
+    <ClInclude Include="Transition.h" />
+    <ClInclude Include="Trigger.h" />
+    <ClInclude Include="version.h" />
+    <ClInclude Include="Viewport.h" />
+    <ClInclude Include="Widget.h" />
+    <ClInclude Include="TextInputControl.h" />
+    <ClInclude Include="WidgetBase.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
