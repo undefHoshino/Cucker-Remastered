@@ -1,7 +1,7 @@
 #pragma once
-#include "Interface.h"
 #include "AdofaiTweaksChartScreen.h"
 #include "Widget.h"
+#include "Displayer.h"
 
 class AdofaiSetupScreen : public Interface {
 private:
@@ -27,7 +27,7 @@ private:
         Label errorLabel;
         bool isReady = false;
     public:
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
             button.Init();
             button.SetProperties(new NoobButton::Properties(0, 0, 10, 3, "Build!"));
@@ -61,7 +61,7 @@ private:
             auto& setting = parent->loaderSetting;
             Timer timer;
             timer.begin();
-            if(!parent->chartJsonManager->AddChart(textBox.GetString(), setting)) return;
+            if(!parent->chartJsonManager->AddChart(textBox.GetString(), *setting)) return;
 
             int64_t costTime = timer.elapsed();
             logger->info("Build Complete in ", costTime, "ms");
@@ -112,7 +112,7 @@ private:
             button.SetProperties(new RadioButton::Properties(x, y));
             button.setStateToggle(toggle);
         }
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
             InitRadioButton(isRemoveBOMButton, 16, 6, true);
             InitRadioButton(clearAnsiCharButton, 20, 8, false);
@@ -163,11 +163,11 @@ private:
             }
         }
         void Config() {
-            parent->loaderSetting.removeBOM = isRemoveBOMButton.getStateToggle();
-            parent->loaderSetting.clearControlChar = clearAnsiCharButton.getStateToggle();
-            parent->loaderSetting.fixTrailingCommas = fixTrailingCommasButton.getStateToggle();
-            parent->loaderSetting.fixTailCommas = fixTailCommasButton.getStateToggle();
-            parent->loaderSetting.readByUtf16 = readbyUtf16Button.getStateToggle();
+            parent->loaderSetting->removeBOM = isRemoveBOMButton.getStateToggle();
+            parent->loaderSetting->clearControlChar = clearAnsiCharButton.getStateToggle();
+            parent->loaderSetting->fixTrailingCommas = fixTrailingCommasButton.getStateToggle();
+            parent->loaderSetting->fixTailCommas = fixTailCommasButton.getStateToggle();
+            parent->loaderSetting->readByUtf16 = readbyUtf16Button.getStateToggle();
             AdofaiChartParser::JsonValueAccessor::SetVerify(jsonVerifyButton.getStateToggle());
         }
     };
@@ -181,14 +181,12 @@ private:
     InterfaceManager<std::string> ifManager;
 
     AdofaiChartJsonManager* chartJsonManager = nullptr;
-
+    AdofaiChartJson::LoaderSetting* loaderSetting = nullptr;
     SetupScreen setupScreen;
     SetupSettingScreen setupSettingScreen;
-
-    AdofaiChartJson::LoaderSetting loaderSetting;
 public:
     AdofaiSetupScreen() {};
-    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override {
+    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
         Interface::Creation(screen, canvas, logger, display);
         ifManager.addInterface("Setup", &setupScreen);
         ifManager.addInterface("Setup_Setting", &setupSettingScreen);
@@ -203,7 +201,9 @@ public:
         setupSettingScreen.SetParent(this);
     }
     void Load() override {
-        chartJsonManager = static_cast<AdofaiTweaksChartScreen*>(display->GetInterface(4))->GetChartManager();
+        auto* screen = static_cast<AdofaiTweaksChartScreen*>(displayer->Get("AdofaiTweaksChartScreen"));
+        chartJsonManager = screen->GetChartManager();
+        loaderSetting = screen->getLoaderSetting();
     }
     void Render() override {
         ifManager.Render();
@@ -217,7 +217,7 @@ public:
     }
 
     void NavigateToTweakScreen() {
-        display->Navigate(4); // AdofaiTweaksChartScreen
+        displayer->Navigate("AdofaiTweaksChartScreen"); // AdofaiTweaksChartScreen
     }
 };
 

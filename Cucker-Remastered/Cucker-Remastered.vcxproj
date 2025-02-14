@@ -147,6 +147,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="Chroma.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleSetting.cpp" />
     <ClCompile Include="Cucker-Remastered.cpp" />
     <ClCompile Include="Defines.cpp" />
@@ -187,13 +188,16 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Chroma.h" />
     <ClInclude Include="Clipboard.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="ConsoleSetting.h" />
     <ClInclude Include="ConsoleThread.h" />
+    <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Converter.h" />
     <ClInclude Include="Cucker.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Displayer.h" />
     <ClInclude Include="EasingFunction.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EventDispatcher.h" />

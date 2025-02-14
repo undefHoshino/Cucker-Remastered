@@ -40,7 +40,7 @@ private:
 		double speed = 1.0;
 	public:
 		void TimelineDrawer(ScreenA* screen, CanvasA* canvas, KeyFrameLoader loader);
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void Key(KeyEventArgs args) override;
@@ -51,7 +51,7 @@ private:
 		Pixel textColor = { {},{255,255,255,255} };
 		NoobButton button;
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void Key(KeyEventArgs args) override;
@@ -68,7 +68,7 @@ private:
 		TextBox textBox;
 		int lastSliderX = 0;
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void Key(KeyEventArgs args) override;
@@ -111,7 +111,7 @@ private:
 		Slider slider;
 		size_t index = 0;
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void DrawAxes();
@@ -130,7 +130,7 @@ private:
 
 		Pixel textColor = { {},{255,255,255,255} };
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 	};
@@ -141,7 +141,7 @@ private:
 
 		Pixel textColor = { {},{255,255,255,255} };
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override {
+		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
 			Interface::Creation(screen, canvas, logger, display);
 			viewport.Init(screen, logger, display);
 			viewport.SetProperties(new Viewport::Properties({ 2, 4, 20, 10 }, { 2, 4, 120, 60 }, Viewport::MoveMode::Viewport));
@@ -284,7 +284,7 @@ private:
 	NoobButton backwardButton;
 	NoobButton forwardButton;
 public:
-	void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override;
+	void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
 	void Render() override;
 	void Mouse(MouseEventArgs args) override;
 	void Key(KeyEventArgs args) override;

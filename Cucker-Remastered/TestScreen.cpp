@@ -31,7 +31,7 @@ void TestScreen::AnimationTestPage::TimelineDrawer(ScreenA* screen, CanvasA* can
 
 }
 
-void TestScreen::AnimationTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) {
+void TestScreen::AnimationTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
 	Interface::Creation(screen, canvas, logger, display);
 
 	auto lambda = [this](ScreenA* screen, CanvasA* canvas, KeyFrameLoader loader, void* args) {
@@ -262,7 +262,7 @@ void TestScreen::AnimationTestPage::BackgroundLogic() {
 	button.Update();
 }
 
-void TestScreen::TextInputerTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) {
+void TestScreen::TextInputerTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
 	Interface::Creation(screen, canvas, logger, display);
 	button.Init();
 	button.SetProperties(new Button::Properties({ 2,7,7,1,"[Write]" }));
@@ -449,7 +449,7 @@ std::vector<TextInputControl::Histroy::InputAction> TestScreen::TextInputerTestP
 	return temp;
 }
 
-void TestScreen::AnimationTestPage2::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) {
+void TestScreen::AnimationTestPage2::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
 	Interface::Creation(screen, canvas, logger, display);
 	anvalueX.setDuration(500);
 	anvalueX.setEasing(GetEasingFunction<EasingFunction::Back>(1));
@@ -637,7 +637,7 @@ void TestScreen::EasingFunctionTestPage::Axis::MouseEvent(MouseEventArgs args) {
 	}
 }
 
-void TestScreen::EasingFunctionTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) {
+void TestScreen::EasingFunctionTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
 	Interface::Creation(screen, canvas, logger, display);
 	easings.push_back(std::make_pair("Linear", GetEasingFunction<EasingFunction::Linear>(0)));
 	easings.push_back(std::make_pair("Sine EaseIn", GetEasingFunction<EasingFunction::Sine>(0)));
@@ -737,7 +737,7 @@ void TestScreen::EasingFunctionTestPage::DrawEasingCurve(Easing easing, int star
 	}
 }
 
-void TestScreen::SliderTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) {
+void TestScreen::SliderTestPage::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
 	Interface::Creation(screen, canvas, logger, display);
 	sliderLeft.Init();
 	sliderLeft.SetProperties(new Slider::Properties(10, 4, 30, 3, Slider::Direction::HorizontalLeft));
@@ -792,7 +792,7 @@ void TestScreen::SliderTestPage::Mouse(MouseEventArgs args) {
 
 }
 
-void TestScreen::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display)  {
+void TestScreen::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display)  {
 	Interface::Creation(screen, canvas, logger, display);
 	ifManager.addInterface(0, &anPage);
 	ifManager.addInterface(1, &anPage2);

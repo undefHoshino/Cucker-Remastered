@@ -1,6 +1,7 @@
 #pragma once
 #include <deque>
 #include <sstream>
+#include <mutex>
 #include "Logger.h"
 #include "Timer.h"
 #include "Layer.h"
@@ -15,22 +16,29 @@ protected:
 
     static Pixel colors[5];
     std::deque<LogEntry>logEntries;
+    std::mutex dataMutex;
 
     const int MaxTick = 1600;
     Timer tickTimer;
+
     LogOverlay() {
         tickTimer.begin();
     }
-
+public:
     LogOverlay(const LogOverlay&) = delete;
     LogOverlay& operator=(const LogOverlay&) = delete;
-public:
-    static LogOverlay& GetInstance();
+
+    static LogOverlay& GetInstance() {
+        static LogOverlay instance;  // 静态局部变量，在第一次访问时创建
+        return instance;
+    }
 
     template<class ...Args>
     void log(Level level, Args... args) {
         std::string rawMsg = toString(args...);
-        (*stderrStream) << formatMessage(level) + rawMsg << std::endl;
+        logStream.Stderr() << format(level) + rawMsg << std::endl;
+
+        std::lock_guard<std::mutex> lock(dataMutex);
         logEntries.push_front({ level,toString(args...),tickTimer.elapsed() + MaxTick });
     }
 
@@ -64,21 +72,4 @@ public:
     void Render(ScreenA& screen, CanvasA& canvas) override;
     void Update() override;
     size_t size() { return logEntries.size(); }
-};
-
-
-class LogInstance : private LogOverlay {
-protected:
-    Logger& logger = Logger::GetInstance();
-    LogOverlay& logOverlay = LogOverlay::GetInstance();
-public:
-    static LogInstance& GetInstance();
-
-    // 提供对 Logger 和 LogOverlay 实例的访问
-    Logger& ToLogger();
-    LogOverlay& ToLogOverlay();
-protected:
-    LogInstance() {}
-    LogInstance(const LogInstance&) = delete;
-    LogInstance& operator=(const LogInstance&) = delete;
 };

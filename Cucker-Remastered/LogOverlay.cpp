@@ -8,11 +8,6 @@ Pixel LogOverlay::colors[5] = {
        {{ 160,0,0,255 }, { 255,0,0,255 }}			  //Fatal
 };
 
-LogOverlay& LogOverlay::GetInstance() {
-    static LogOverlay instance;
-    return instance;
-}
-
 void LogOverlay::Render(ScreenA& screen, CanvasA& canvas) {
     if (logEntries.size() == 0)
         return;
@@ -31,6 +26,8 @@ void LogOverlay::Render(ScreenA& screen, CanvasA& canvas) {
     Update();
 }
 void LogOverlay::Update() {
+    std::lock_guard<std::mutex> lock(dataMutex);
+
     if (logEntries.size() == 0) return;
     int64_t time = tickTimer.elapsed();
     while (!logEntries.empty()) {
@@ -39,17 +36,4 @@ void LogOverlay::Update() {
         else
             break;
     }
-}
-
-LogInstance& LogInstance::GetInstance() {
-    static LogInstance instance;  // 只会创建一次
-    return instance;
-}
-// 提供对 Logger 和 LogOverlay 实例的访问
-Logger& LogInstance::ToLogger() {
-    return logger;
-}
-
-LogOverlay& LogInstance::ToLogOverlay() {
-    return logOverlay;
 }

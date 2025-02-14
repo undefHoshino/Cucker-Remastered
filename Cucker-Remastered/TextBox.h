@@ -27,10 +27,14 @@ public:
 protected:
 	TextInputControl inputControl;
 public:
+	enum Events {
+		onTextboxActive
+	};
 	void Init() override;
 	void SetMaxLine(size_t maxLine);
 	void setLineNumberVisibility(bool visible);
 	void setShouldFillEntireRect(bool flag);
 	std::string GetString();
 	std::wstring GetWstring();
+	TextInputControl& getInputControl();
 };

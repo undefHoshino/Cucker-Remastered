@@ -61,6 +61,9 @@
     <Filter Include="头文件\Cucker\Adofai">
       <UniqueIdentifier>{d1ec5e9b-fbee-40ce-8131-262b32a39efa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Engine\Overlay">
+      <UniqueIdentifier>{eb7ae548-6b83-4b51-b498-81969e22cc2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cucker-Remastered.cpp">
@@ -71,12 +74,6 @@
     </ClCompile>
     <ClCompile Include="Screen.cpp">
       <Filter>头文件\Engine\Screen</Filter>
-    </ClCompile>
-    <ClCompile Include="LogOverlay.cpp">
-      <Filter>头文件\Engine\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="FpsOverlay.cpp">
-      <Filter>头文件\Engine\Component</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleFunction.cpp">
       <Filter>头文件\Engine\System</Filter>
@@ -92,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="Interface.cpp">
       <Filter>头文件\Engine\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>头文件\Engine\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>头文件\Engine</Filter>
@@ -165,6 +159,18 @@
     <ClCompile Include="AdofaiTweaksChartScreen.cpp">
       <Filter>头文件\Cucker\Adofai</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>头文件\Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="LogOverlay.cpp">
+      <Filter>头文件\Engine\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsOverlay.cpp">
+      <Filter>头文件\Engine\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -175,18 +181,6 @@
     </ClInclude>
     <ClInclude Include="Screen.h">
       <Filter>头文件\Engine\Screen</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>头文件\Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>头文件\Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="LogOverlay.h">
-      <Filter>头文件\Engine\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="FpsOverlay.h">
-      <Filter>头文件\Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleFunction.h">
       <Filter>头文件\Engine\System</Filter>
@@ -218,7 +212,7 @@
     <ClInclude Include="ConsoleSetting.h">
       <Filter>头文件\Engine\System</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleThread.h">
+    <ClInclude Include="ThreadManager.h">
       <Filter>头文件\Engine\System</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions.h">
@@ -284,14 +278,8 @@
     <ClInclude Include="StateMachine.h">
       <Filter>头文件\Engine\UI\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Trigger.h">
-      <Filter>头文件\Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="AnimationBuilder.h">
       <Filter>头文件\Engine\UI\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="EventDispatcher.h">
-      <Filter>头文件\Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="Clipboard.h">
       <Filter>头文件\Engine\System</Filter>
@@ -337,6 +325,33 @@
     </ClInclude>
     <ClInclude Include="AdofaiTweaksChartScreen.h">
       <Filter>头文件\Cucker\Adofai</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>头文件\Engine\Hpet</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>头文件\Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Trigger.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>头文件\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Displayer.h">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="LogOverlay.h">
+      <Filter>头文件\Engine\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsOverlay.h">
+      <Filter>头文件\Engine\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleThread.h">
+      <Filter>头文件\Engine\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

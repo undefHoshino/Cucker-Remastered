@@ -1,19 +1,51 @@
 #pragma once
 #include "Engine.h"
+#include "Console.h"
+#include "ConsoleThread.h"
+#include "Displayer.h"
 #include "TestScreen.h"
 #include "TimerScreen.h"
 #include "MainScreen.h"
 #include "AdofaiSetupScreen.h"
 #include "AdofaiTweaksChartScreen.h"
+
 class Cucker : public ConsoleEngine {
+protected:
+	Console* console = nullptr;
+	ConsoleThread* consoleThread = nullptr;
+	Displayer* displayer = nullptr;
+public:
+	void Initialization() override {
+		logger.SetClassName("Cucker");
+
+		console		  = Use(new Console());
+		consoleThread = Use(new ConsoleThread());
+		displayer	  = Use(new Displayer());
+		
+		Register();
+	}
+	void Run() override {
+		consoleThread->CreateSystemThread();
+
+		while (true) {
+			try {
+				displayer->BackgroundLogic();
+				consoleThread->Supervisor();
+			}
+			catch (std::exception e) {
+				logger.fatal("Exception: ", e.what());
+			}
+			Sleep(1);
+		}
+	}
 protected:
 	void Register() override {
 		// Register interface and Navigate
-		display.Insert(0, MakeMainScreen());
-		display.Insert(1, MakeTestScreen());
-		display.Insert(2, MakeTimerScreen());
-		display.Insert(3, MakeAdofaiSetupScreen());			
-		display.Insert(4, MakeAdofaiTweaksChartScreen());
-		display.Navigate(3);
+		displayer->Insert("MainScreen", MakeMainScreen());
+		displayer->Insert("TestScreen", MakeTestScreen());
+		displayer->Insert("TimerScreen", MakeTimerScreen());
+		displayer->Insert("AdofaiSetupScreen", MakeAdofaiSetupScreen());
+		displayer->Insert("AdofaiTweaksChartScreen", MakeAdofaiTweaksChartScreen());
+		displayer->Navigate("TestScreen");
 	}
 };

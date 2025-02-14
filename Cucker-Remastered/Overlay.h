@@ -21,7 +21,7 @@ protected:
 	int overlayWidth = 0, overlayHeight = 0, overlayX = 0, overlayY = 0;
 public:
 	Overlay() : dispatcher(nullptr) {};
-	void OverlayCreation(ScreenA* main, LogOverlay* logger, Display* display, int width, int height, int x = 0, int y = 0);
+	void OverlayCreation(ScreenA* main, LogOverlay* logger, Displayer* display, int width, int height, int x = 0, int y = 0);
 	virtual void OverlayRender();
 	virtual void onCreateScreen() override;
 	virtual void onWriteConsole() override;

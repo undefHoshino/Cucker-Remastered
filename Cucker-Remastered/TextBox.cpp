@@ -31,6 +31,7 @@ void TextBox::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 	if (inArea) {
 		if (args->buttonState[0]) {
 			inputer.enable();
+			textbox->callEvent(Events::onTextboxActive, args, true);
 		}
 	}
 
@@ -159,4 +160,8 @@ std::string TextBox::GetString() {
 
 std::wstring TextBox::GetWstring() {
 	return inputControl.getWstring();
+}
+
+TextInputControl& TextBox::getInputControl() {
+	return inputControl;
 }

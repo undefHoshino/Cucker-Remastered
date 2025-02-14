@@ -4,7 +4,7 @@
 
 // Const
 struct ConsoleSetting {
-	DWORD ioStreamMode = _O_U8TEXT;
+	DWORD logStreamMode = _O_U8TEXT;
 
 	UINT codePageID = 936; // GBK
 

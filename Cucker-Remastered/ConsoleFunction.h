@@ -20,4 +20,6 @@ void FillConsoleBuffer(COORD pos, DWORD cellCount, WORD attributes);
 
 bool CheckConsoleInstance();
 
+bool RestoreConsoleInstance();
+
 void IgnoreCtrlCExit(bool enable);

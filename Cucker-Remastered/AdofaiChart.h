@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <fstream>
 #include <functional>
+#include <prettywriter.h>
 #include <document.h>
 #include <error/en.h> // 提供错误码的字符串描述
 #include "Chroma.h"
@@ -957,7 +958,7 @@ public:
         MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, &wideStr[0], wideCharLen);
 
         // 将宽字符转换为ANSI
-        int ansiLen = WideCharToMultiByte(936, 0, wideStr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        int ansiLen = WideCharToMultiByte($CSetting.codePageID, 0, wideStr.c_str(), -1, nullptr, 0, nullptr, nullptr);
         if (ansiLen == 0) {
             // 处理错误
             return "";
@@ -971,14 +972,49 @@ public:
         return ansiStr;
     }
 
+    void OverwriteChart(const size_t index) {
+        CheckIndexIsOutofRange(index);
+        auto& chartData = charts[index];
+        // 使用 RapidJSON 获取 JSON 字符串
+        rapidjson::StringBuffer buffer;
+        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+
+        // 使用 Writer 将 Document 数据写入字符串缓冲区
+        chartData.chart.GetChartDocument().Accept(writer);
+
+        // 打开文件流进行写入
+        std::ofstream ofs(chartData.filepath);
+
+        if (!ofs.is_open()) {
+            LogOverlay::GetInstance().error("Failed to open file for writing: ", chartData.filepath);
+            return;
+        }
+
+        // 将生成的字符串写入文件
+        ofs << buffer.GetString();
+
+        ofs.close();  // 关闭文件流
+    }
+
+    void ReloadChart(const size_t index, AdofaiChartJson::LoaderSetting setting) {
+        CheckIndexIsOutofRange(index);
+        AdofaiChartJson reloadChart;
+        reloadChart.ReadFileAndParse(charts[index].filepath, setting);
+        charts[index].chart = reloadChart;
+    }
+
     void EraseChart(const size_t index) {
-        if (index >= charts.size()) throw std::out_of_range("Chart Index out of range: " + std::to_string(index));
+        CheckIndexIsOutofRange(index);
         charts.erase(charts.begin() + index);
     }
 
     AdofaiChartData& GetChart(const size_t index) {
-        if (index >= charts.size()) throw std::out_of_range("Chart Index out of range: " + std::to_string(index));
+        CheckIndexIsOutofRange(index);
         return charts[index];
+    }
+
+    void CheckIndexIsOutofRange(const size_t index) {
+        if (index >= charts.size()) throw std::out_of_range("Chart Index out of range: " + std::to_string(index));
     }
 
     void ForEach(std::function<void(AdofaiChartData&)> func) {
@@ -1012,5 +1048,24 @@ public:
 
     std::vector<AdofaiChartData>& data() {
         return charts;
+    }
+};
+
+class AdofaiChartManager {
+private:
+    AdofaiChartJsonManager jsonManager;
+    AdofaiChartJsonManager::AdofaiChartData* currentChart = nullptr;
+public:
+    void AddChart(const std::string& filePath, AdofaiChartJson::LoaderSetting setting) {
+        if (jsonManager.AddChart(filePath, setting)) {
+            currentChart = &jsonManager.GetChart(jsonManager.size() - 1);
+        }
+    }
+    void SetCurrentChart(size_t index) {
+        currentChart = &jsonManager.GetChart(index);
+    }
+    AdofaiChartJsonManager::AdofaiChartData& getChart(size_t index, bool current = false) {
+        if (current) return *currentChart;
+        return jsonManager.GetChart(index);
     }
 };

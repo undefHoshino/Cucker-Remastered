@@ -1,6 +1,6 @@
 #include "Overlay.h"
 
-void Overlay::OverlayCreation(ScreenA* main, LogOverlay* logger, Display* display, int width, int height, int x, int y) {
+void Overlay::OverlayCreation(ScreenA* main, LogOverlay* logger, Displayer* display, int width, int height, int x, int y) {
 	std::shared_ptr<ScreenA> oscreen = std::make_shared<ScreenA>(&main->getBlender());
 	std::shared_ptr<CanvasA> ocanvas = std::make_shared<CanvasA>(oscreen.get());
 
@@ -32,7 +32,7 @@ void Overlay::freeOverlay() {
 		canvas = nullptr;
 	}
 	logger = nullptr;
-	display = nullptr;
+	displayer = nullptr;
 }
 void Overlay::setPosition(int x, int y) {
 	overlayX = x;

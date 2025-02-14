@@ -13,7 +13,7 @@ private:
 	bool toggleReversed = false;
 	double speed = 1.0;
 public:
-	void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) override {
+	void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
 		Interface::Creation(screen, canvas, logger, display);
 		clock.setMaxDuration<std::chrono::years>(100);
 	}

@@ -88,7 +88,7 @@
 //	bool stringFix(int x, int y, std::string& str);
 //};
 
-class Display;
+//class Display;
 
 
 // Unfinished !!!
@@ -287,7 +287,7 @@ protected:
 	ScreenA screen;
 	CanvasA canvas;
 	LogOverlay* logger;
-	Display* display;
+	Displayer* display;
 
 	BufferDispatcherA dispatcher;
 	Scrollbar horizontalScrollbar;
@@ -298,7 +298,7 @@ public:
 		: screen(nullptr), dispatcher(nullptr) {
 	};
 	[[deprecated]] void Init() override {};
-	virtual void Init(ScreenA* screen, LogOverlay* logger, Display* display) {
+	virtual void Init(ScreenA* screen, LogOverlay* logger, Displayer* display) {
 		this->screen.sendSignal(ScreenA::Signal::SetBlender, &screen->getBlender());
 		this->canvas.attach(&this->screen);
 		this->logger = logger;

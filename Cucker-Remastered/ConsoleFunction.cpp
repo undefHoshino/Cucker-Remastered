@@ -66,6 +66,38 @@ bool CheckConsoleInstance() {
     return GetConsoleWindow() != NULL;
 }
 
+bool RestoreConsoleInstance() {
+    while (1) {
+        if (GetConsoleWindow() == NULL) {
+            if (MessageBox(NULL,
+                L"Your TRASH Console has been DESTROYED AND RUINED!\n\
+                    \rTo trying restore, press 'Retry'. \
+                    \rTo end your mission, press 'Cancel.'",
+                L"Error", MB_ICONERROR | MB_RETRYCANCEL) == IDCANCEL) {
+                return false;
+            }
+
+            if (AllocConsole()) {
+                if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
+                    DWORD code = GetLastError();
+                    MessageBox(NULL, (L"Failed in AttachConsole. (" + std::to_wstring(code) + L")").c_str(), L"RIP", MB_ICONERROR | MB_OK);
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                DWORD code = GetLastError();
+                MessageBox(NULL, (L"Failed in AllocConsole. (" + std::to_wstring(code) + L")").c_str(), L"RIP", MB_ICONERROR | MB_OK);
+            }
+        }
+        else {
+            return true;
+        }
+    }
+}
+
+
 void IgnoreCtrlCExit(bool enable) {
     // 如果禁用 Ctrl+C 退出，移除之前的处理器
     if (!enable) {

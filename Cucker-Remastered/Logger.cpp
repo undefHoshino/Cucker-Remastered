@@ -1,19 +1,5 @@
 #include "Logger.h"
 
-Logger& Logger::GetInstance() {
-    static Logger instance;  // 静态局部变量，确保只创建一次
-    return instance;
-}
-
-// 设置标准输出流
-void Logger::setStdoutStream(std::ostream& newStdoutStream) {
-    stdoutStream = &newStdoutStream;
-}
-
-void Logger::setStderrStream(std::ostream& newStderrStream) {
-    stderrStream = &newStderrStream;
-}
-
 void Logger::appendAnsi(std::string& msg, Level level) {
     if (AnsiOutput) {
         msg.insert(0, levelAnsi[level]);
@@ -21,13 +7,16 @@ void Logger::appendAnsi(std::string& msg, Level level) {
     }
 }
 
-std::string Logger::formatMessage(Level level) {
+std::string Logger::format(Level level) {
     std::string msg = "";
     msg.push_back('[');
     msg.append(currentDateTime());
     msg.append("] [");
     msg.append(levelToString(level));
     msg.append("] ");
+    if (!className.empty()) {
+        msg.append("[" + className + "] ");
+    }
     return msg;
 }
 
@@ -51,3 +40,15 @@ std::string Logger::currentDateTime() {
     std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
     return std::string(buf);
 }
+
+LogStream Logger::logStream;
+
+bool Logger::AnsiOutput = false;
+
+std::string Logger::levelAnsi[5] = {
+        Pixel::GetANSI({ 0,0,0,255 }, { 255,255,255,255 }),     // Debug
+        Pixel::GetANSI({ 0,0,0,255 }, { 255,255,255,255 }),     // Info
+        Pixel::GetANSI({ 0,0,0,255 }, { 255,255,128,255 }),     // Warn
+        Pixel::GetANSI({ 0,0,0,255 }, { 255,80,80,255 }),       // Error
+        Pixel::GetANSI({ 0,0,0,255 }, { 255,20,20,255 })          // Fatal
+};

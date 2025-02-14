@@ -6,16 +6,16 @@
 #include "InputHandler.h"
 #include "ConsoleFunction.h"
 
-class Display;
+class Displayer;
 
 class Interface {
 protected:
     ScreenA* screen = nullptr;
     CanvasA* canvas = nullptr;
     LogOverlay* logger = nullptr;
-    Display* display = nullptr;
+    Displayer* displayer = nullptr;
 public:
-    virtual void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display);
+    virtual void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* displayer);
     virtual void Load() {};
     virtual void Unload() {};
     virtual void Render() {};
@@ -48,7 +48,7 @@ if (invokeMethod == InvokeMethod::Deque) { \
 } else { \
     activeInterface->func; \
 }
-    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Display* display) {
+    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
         _InterfaceInvoke(Creation(screen, canvas, logger, display));
     }
     void Load() {
@@ -138,58 +138,56 @@ if (invokeMethod == InvokeMethod::Deque) { \
     }
 };
 
-class Display {
-public:
-    struct Module {
-        ScreenA screen;
-        ScreenBlenderA blender;
-        CanvasA canvas;
-        LogOverlay* logger = nullptr;
-
-        Module(LogOverlay* logOverlay) :screen(&blender), canvas(&screen), logger(logOverlay) {};
-    };
-private:
-    std::unordered_map<int, Interface*> manager;
-    Module modules;
-
-    int ifacePointer = 0;
-public:
-    Display(LogOverlay* logger) :modules(logger) {};
-    void Insert(int id, Interface* iface);
-    void Navigate(int id);
-    void Render();
-    void BackgroundLogic();
-    bool exist(int id);
-    ~Display();
-
-    Interface* GetInterface(int id);
-private:
-    bool load(int id);
-    bool unload(int id);
-public:
-    template<class EventArgs, class T>
-    void SendInputArgs(T args) {
-        auto& iface = manager[ifacePointer];
-
-        if constexpr (std::is_same_v<EventArgs, MouseEventArgs>) {
-            iface->Mouse(args);
-        }
-        else if constexpr (std::is_same_v<EventArgs, KeyEventArgs>) {
-            iface->Key(args);
-        }
-        else if constexpr (std::is_same_v<EventArgs, FocusEventArgs>) {
-            iface->Focus(args);
-        }
-        else if constexpr (std::is_same_v<EventArgs, MenuEventArgs>) {
-            iface->Menu(args);
-        }
-        else if constexpr (std::is_same_v<EventArgs, BufferEventArgs>) {
-            iface->BufferSize(args);
-        }
-        else {
-            throw std::runtime_error("Unsupported EventArgs in SendInput");
-        }
-    }
-
-};
-
+//class Display {
+//public:
+//    struct Module {
+//        ScreenA screen;
+//        ScreenBlenderA blender;
+//        CanvasA canvas;
+//        LogOverlay logger;
+//
+//        Module() :screen(&blender), canvas(&screen) {};
+//    };
+//private:
+//    std::unordered_map<int, Interface*> manager;
+//    Module modules;
+//
+//    int ifacePointer = 0;
+//public:
+//    Display() {};
+//    void Insert(int id, Interface* iface);
+//    void Navigate(int id);
+//    void Render();
+//    void BackgroundLogic();
+//    bool exist(int id);
+//    ~Display();
+//
+//    Interface* GetInterface(int id);
+//private:
+//    bool load(int id);
+//    bool unload(int id);
+//public:
+//    template<class EventArgs, class T>
+//    void SendInputArgs(T args) {
+//        auto& iface = manager[ifacePointer];
+//
+//        if constexpr (std::is_same_v<EventArgs, MouseEventArgs>) {
+//            iface->Mouse(args);
+//        }
+//        else if constexpr (std::is_same_v<EventArgs, KeyEventArgs>) {
+//            iface->Key(args);
+//        }
+//        else if constexpr (std::is_same_v<EventArgs, FocusEventArgs>) {
+//            iface->Focus(args);
+//        }
+//        else if constexpr (std::is_same_v<EventArgs, MenuEventArgs>) {
+//            iface->Menu(args);
+//        }
+//        else if constexpr (std::is_same_v<EventArgs, BufferEventArgs>) {
+//            iface->BufferSize(args);
+//        }
+//        else {
+//            throw std::runtime_error("Unsupported EventArgs in SendInput");
+//        }
+//    }
+//};
