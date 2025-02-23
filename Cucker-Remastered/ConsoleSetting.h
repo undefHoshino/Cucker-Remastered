@@ -6,7 +6,7 @@
 struct ConsoleSetting {
 	DWORD logStreamMode = _O_U8TEXT;
 
-	UINT codePageID = 936; // GBK
+	UINT codePageID = CP_UTF8; // UTF-8
 
 	const char* folderPath = "log";
 

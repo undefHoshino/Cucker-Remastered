@@ -113,6 +113,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>E:\!MyProject\C++Project\!C++库\rapidjson\</AdditionalIncludeDirectories>
+      <AdditionalOptions>/execution-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,8 +150,10 @@
     <ClCompile Include="Chroma.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConsoleSetting.cpp" />
+    <ClCompile Include="ConsoleThread.cpp" />
     <ClCompile Include="Cucker-Remastered.cpp" />
     <ClCompile Include="Defines.cpp" />
+    <ClCompile Include="Displayer.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FpsOverlay.cpp" />
     <ClCompile Include="HpetClock.cpp" />
@@ -170,6 +173,7 @@
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="TestScreen.cpp" />
     <ClCompile Include="TextBox.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="Timeline.cpp" />
     <ClCompile Include="TimerScreen.cpp" />
     <ClCompile Include="TextInputControl.cpp" />
@@ -231,11 +235,13 @@
     <ClInclude Include="TimerScreen.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="Trigger.h" />
+    <ClInclude Include="Unicode.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="TextInputControl.h" />
     <ClInclude Include="WidgetBase.h" />
+    <ClInclude Include="WidgetWrappers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "Interface.h"
 #include "Engine.h"
 
-class Displayer : public ConsoleEngine::Component {
+class Displayer : public EngineComponent {
 protected:
 	ScreenA screen;
 	ScreenBlenderA blender;
@@ -14,55 +14,18 @@ public:
 	LogOverlay& logOverlay = LogOverlay::GetInstance();
 
 	Displayer() :screen(&blender), canvas(&screen) {};
-	void Init(ConsoleEngine& source) override {
-		ConsoleEngine::Component::Init(source);
-	}
-	void Insert(const std::string& id, Interface* iface) {
-		iface->Creation(&screen, &canvas, &logOverlay, this);
-		manager.insert(std::make_pair(id, iface));
-	}
-	void Navigate(const std::string& id) {
-		if (!exist(id)) return;
-
-		unload();
-		load(id);
-	}
-	void Free() {
-		for (auto& ptr : manager) {
-			delete ptr.second;
-		}
-		manager.clear();
-	}
-	Interface* Get(const std::string& id) {
-		if (!exist(id)) throw ReportException("Interface (", id, ") doesn't exist");
-		return manager[id];
-	}
-	~Displayer() {
-		Free();
-	}
+	void Insert(const std::string& id, Interface* iface);
+	void Navigate(const std::string& id);
+	void Free();
+	Interface* Get(const std::string& id);
+	~Displayer();
 protected:
-	void unload() {
-		if (current) current->Unload();
-	}
-	bool load(const std::string& id) {
-		if (!exist(id)) return false;
-		manager[id]->Load();
-		current = manager[id];
-
-		return true;
-	}
-	bool exist(std::string id) {
-		return manager.count(id) > 0;
-	}
+	void unload();
+	bool load(const std::string& id);
+	bool exist(std::string id);
 public:
-	void Render() {
-		current->onCreateScreen();
-		current->Render();
-		current->onWriteConsole();
-	}
-	void BackgroundLogic() {
-		current->BackgroundLogic();
-	}
+	void Render();
+	void BackgroundLogic();
 	template<class EventArgs, class T>
 	void SendInputArgs(T args) {
 		if constexpr (std::is_same_v<EventArgs, MouseEventArgs>) {
@@ -81,7 +44,7 @@ public:
 			current->BufferSize(args);
 		}
 		else {
-			throw ReportException("Unsupported EventArgs in SendInput");
+			throw ReportException("Unsupported EventArgs in SendInputArgs");
 		}
 	}
 };

@@ -1,7 +1,7 @@
 #include "Console.h"
 
-void Console::Init(ConsoleEngine& source) {
-	ConsoleEngine::Component::Init(source);
+void Console::Init(ConsoleEngine* source, void* args) {
+	EngineComponent::Init(source, args);
 	logger.SetClassName("Console");
 	SetConsoleOutputCP($CSetting.codePageID);
 	redirectLogStream();

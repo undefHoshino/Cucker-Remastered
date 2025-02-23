@@ -24,8 +24,8 @@ void ScreenBufferA::assign(size_t index, size_t amount, char c, Pixel pixel, boo
 	for (size_t i = index; i < endIndex; i++) {
 		blend(i, pixel);
 	}
-    if(c != '\0')
-	    buf.replace(index, endIndex - index, endIndex - index, c);
+    if (c != '\0')
+        buf.replace(index, endIndex - index, endIndex - index, c);
 }
 void ScreenBufferA::replace(size_t index, std::string str, Pixel pixel) {
     assign(index, str.length(), 0, pixel, false);

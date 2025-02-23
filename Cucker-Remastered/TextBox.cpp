@@ -133,7 +133,7 @@ void TextBox::Style::setShouldFillEntireRect(bool flag) {
 
 void TextBox::Init() {
 	Widget::Init();
-	SetStyle(new Style());
+	SetWidget(new Style());
 	addEvent(_MouseEvent_, [this](void* _args, ActionableWidget* self) { style->MouseEvent(static_cast<MouseEventArgs*>(_args), self); });
 	addEvent(_KeyEvent_, [this](void* _args, ActionableWidget* self) { style->KeyEvent(static_cast<KeyEventArgs*>(_args), self); });
 

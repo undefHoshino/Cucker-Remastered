@@ -10,8 +10,12 @@ void Widget::SetProperties(WidgetProperties* prop) {
 }
 
 void Widget::Init() {
-	SetData({});
-	SetStyle({});
+	SetWidget();
+}
+
+void Widget::SetWidget(WidgetStyle* style, WidgetData* data) {
+	SetStyle(style);
+	SetData(data);
 }
 
 void Widget::SetDrawer(TimeAxis::Drawer::DrawFunction func) {

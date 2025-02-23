@@ -37,9 +37,6 @@
     <Filter Include="头文件\Cucker\Interfaces">
       <UniqueIdentifier>{6b91ad4f-8cf0-4cf8-baa2-549c7930a162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Engine\Canvas">
-      <UniqueIdentifier>{1beed3f5-519e-4df5-8700-e93cfa94416d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\Engine\Widget">
       <UniqueIdentifier>{625288e9-edf4-4fa9-9686-213e39b42a30}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,12 @@
     </Filter>
     <Filter Include="头文件\Engine\Overlay">
       <UniqueIdentifier>{eb7ae548-6b83-4b51-b498-81969e22cc2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\Screen\Canvas">
+      <UniqueIdentifier>{1beed3f5-519e-4df5-8700-e93cfa94416d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Engine\String">
+      <UniqueIdentifier>{f716b539-b239-45e8-a711-f7da240683d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -103,10 +106,10 @@
       <Filter>头文件\Cucker\Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="Canvas.cpp">
-      <Filter>头文件\Engine\Canvas</Filter>
+      <Filter>头文件\Engine\Screen\Canvas</Filter>
     </ClCompile>
     <ClCompile Include="BufferDispatcher.cpp">
-      <Filter>头文件\Engine\Canvas</Filter>
+      <Filter>头文件\Engine\Screen\Canvas</Filter>
     </ClCompile>
     <ClCompile Include="Overlay.cpp">
       <Filter>头文件\Engine\Interface</Filter>
@@ -171,6 +174,15 @@
     <ClCompile Include="Console.cpp">
       <Filter>头文件\Engine\Component</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>头文件\Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Displayer.cpp">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleThread.cpp">
+      <Filter>头文件\Engine\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -228,10 +240,10 @@
       <Filter>头文件\Cucker\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Canvas.h">
-      <Filter>头文件\Engine\Canvas</Filter>
+      <Filter>头文件\Engine\Screen\Canvas</Filter>
     </ClInclude>
     <ClInclude Include="BufferDispatcher.h">
-      <Filter>头文件\Engine\Canvas</Filter>
+      <Filter>头文件\Engine\Screen\Canvas</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
       <Filter>头文件\Engine\Interface</Filter>
@@ -335,9 +347,6 @@
     <ClInclude Include="Trigger.h">
       <Filter>头文件\Engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="EventDispatcher.h">
-      <Filter>头文件\Engine\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>头文件\Engine\Component</Filter>
     </ClInclude>
@@ -352,6 +361,15 @@
     </ClInclude>
     <ClInclude Include="ConsoleThread.h">
       <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetWrappers.h">
+      <Filter>头文件\Engine\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Unicode.h">
+      <Filter>头文件\Engine\String</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>头文件\Engine\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

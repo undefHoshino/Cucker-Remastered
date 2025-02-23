@@ -800,13 +800,16 @@ void TestScreen::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, 
 	ifManager.addInterface(3, &easingTestPage);
 	ifManager.addInterface(4, &sliderTestPage);
 	ifManager.addInterface(5, &viewportTestPage);
+	ifManager.addInterface(6, &stableTestPage);
 	ifManager.addDeque(0);
 	ifManager.addDeque(1);
 	ifManager.addDeque(2);
 	ifManager.addDeque(3);
 	ifManager.addDeque(4);
 	ifManager.addDeque(5);
+	ifManager.addDeque(6);
 	ifManager.UsingInvoke(0);
+	ifManager.Init(parent);
 	ifManager.Creation(screen, canvas, logger, display);
 	ifManager.UsingInvoke(1);
 	ifManager.activateInterface(PageId);
@@ -848,6 +851,8 @@ void TestScreen::Render()  {
 	backwardButton.Render(*screen, *canvas);
 	forwardButton.Render(*screen, *canvas);
 	fpsOverlay.Render(*screen, *canvas);
+
+	canvas->DrawString(0, 0, "жпнд╡Бйт", textColor);
 }
 
 void TestScreen::Mouse(MouseEventArgs args)  {

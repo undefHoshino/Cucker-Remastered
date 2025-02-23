@@ -1,11 +1,12 @@
 #pragma once
-#include <string>
 #include <vector>
 #include "Chroma.h"
+#include "Unicode.h"
 #undef min
 #undef max
 
-template<class String>
+
+
 class IScreenBuffer {
 public:
 	int Width, Height;
@@ -19,8 +20,7 @@ public:
 	virtual void free() = 0;
 };
 
-
-class ScreenBufferA : public IScreenBuffer<std::string> {
+class ScreenBufferA : public IScreenBuffer {
 public:
 	std::string buf;
 	std::vector<Pixel> pixels;
@@ -33,3 +33,31 @@ public:
 	void shrink() override;
 	void free() override;
 };
+
+
+//struct PixelData {
+//	int ucsChar;
+//	Pixel pixel;
+//};
+//
+//class ScreenBuffer {
+//public:
+//	std::vector<PixelData> buffer;
+//	int Width, Height;
+//
+//	inline void resize(int width, int height) {
+//		Width = width;
+//		Height = height;
+//		clear(width * height);
+//	}
+//	inline void shrink() {
+//		buffer.shrink_to_fit();
+//	}
+//	inline void clear(size_t newCapacity) {
+//		buffer.assign(newCapacity, {});
+//	}
+//	inline void free() {
+//		buffer.clear();
+//		buffer.shrink_to_fit();
+//	}
+//};

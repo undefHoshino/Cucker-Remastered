@@ -5,10 +5,11 @@
 #include "FpsOverlay.h"
 #include "InputHandler.h"
 #include "ConsoleFunction.h"
+#include "Engine.h"
 
 class Displayer;
 
-class Interface {
+class Interface : public EngineComponent {
 protected:
     ScreenA* screen = nullptr;
     CanvasA* canvas = nullptr;
@@ -27,6 +28,8 @@ public:
     virtual void BackgroundLogic() {};
     virtual void onCreateScreen();
     virtual void onWriteConsole();
+private:
+    void Start() override {};
 };
 
 template<class _Fty>
@@ -48,6 +51,9 @@ if (invokeMethod == InvokeMethod::Deque) { \
 } else { \
     activeInterface->func; \
 }
+    void Init(ConsoleEngine* parent) {
+        _InterfaceInvoke(Init(parent, 0));
+    }
     void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
         _InterfaceInvoke(Creation(screen, canvas, logger, display));
     }

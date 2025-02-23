@@ -47,13 +47,14 @@ public:
 
 	// Based on _MouseEvent_, _KeyEvent_
 	enum Events {
-		_MouseEventEx_ = 0, // MouseEventArgsEx
-		onMouseHeld = 1, // MouseEventArgs
-		onMouseReleased = 2, // MouseEventArgs
-		onMousePressed = 3, // MouseEventArgs
-		onMouseDoubleClick = 4, // MouseEventArgs
-		onButtonSelected = 5, // KeyEventArgs
-		onButtonSelectionCanceled = 6  // KeyEventArgs | Executes once
+		_MouseEventEx_ = 0,				// MouseEventArgsEx
+		onMouseHeld = 1,				// MouseEventArgs
+		onMouseReleased = 2,			// MouseEventArgs
+		onMousePressed = 3,				// MouseEventArgs
+		onMouseDoubleClick = 4,			// MouseEventArgs
+		onMouseInArea = 5,				// MouseEventArgs
+		onButtonSelected = 6,			// KeyEventArgs
+		onButtonSelectionCanceled = 7,  // KeyEventArgs | Executes once
 	};
 
 	virtual void Init() override;
