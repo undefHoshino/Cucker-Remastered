@@ -1,7 +1,8 @@
 #include "Button.h"
 
 void Button::Init() {
-	SetWidget(new Button::Style());
+	Widget::Init();
+	SetStyle(new Style());
 
 	SetDrawer([this](ScreenA* screen, CanvasA* canvas, KeyFrameGroupLoader loader, void* args) {
 		style->DrawPrimitive(*screen, *canvas, this);
@@ -58,7 +59,7 @@ int Button::Style::getIndex() {
 
 void NoobButton::Init() {
 	Button::Init();
-	SetWidget(new NoobButton::Style());
+	SetStyle(new Style());
 	refreshEvent(Button::_MouseEvent_);
 	addEvent(Button::_MouseEvent_, [this](void* _args, ActionableWidget* self) {
 		style->MouseEvent(static_cast<MouseEventArgs*>(_args), self);
@@ -79,7 +80,6 @@ void NoobButton::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 	output.args = *args;
 
 	if (inArea) {
-		actionable.callEvent(Events::onMouseInArea, args, true);
 		if (args->buttonState[0]) {
 			style.setIndex(2);
 			actionable.callEvent(Events::onMouseHeld, args, true);
@@ -164,7 +164,7 @@ bool RadioButton::Style::getStateToggle() {
 
 void RadioButton::Init() {
 	NoobButton::Init();
-	SetWidget(new Style());
+	SetStyle(new Style());
 	SetDrawer([this](ScreenA* screen, CanvasA* canvas, KeyFrameGroupLoader loader, void* args) {
 		style->DrawPrimitive(*screen, *canvas, this);
 	});

@@ -1,9 +1,5 @@
 #include "Slider.h"
 
-Slider::Style::Style() {
-	valueUpdater.initial(0);
-}
-
 void Slider::Style::DrawPrimitive(ScreenA& screen, CanvasA& canvas, Widget* widget) {
 	auto& prop = *widget->as<Slider>()->getProperties<Properties>();
 	auto& data = *widget->as<Slider>()->getData<Data>();
@@ -115,10 +111,13 @@ ValueUpdater<int>& Slider::Style::getValueUpdater() {
 }
 
 void Slider::Init() {
-	SetWidget(new Style(), new Data());
+	Widget::Init();
+	SetStyle(new Style());
+	SetData(new Data());
 	SetDrawer([this](ScreenA* screen, CanvasA* canvas, KeyFrameGroupLoader loader, void* args) {
 		style->DrawPrimitive(*screen, *canvas, this);
 		});
+	getStyle<Style>()->getValueUpdater().initial(0);
 	addEvent(Slider::_MouseEvent_, [this](void* _args, ActionableWidget* self) { style->MouseEvent(static_cast<MouseEventArgs*>(_args), self); });
 }
 
@@ -302,10 +301,13 @@ size_t Scrollbar::Style::getSliderSize(const Properties& prop) {
 }
 
 void Scrollbar::Init() {
-	SetWidget(new Style(), new Data());
+	Widget::Init();
+	SetStyle(new Style());
+	SetData(new Data());
 	SetDrawer([this](ScreenA* screen, CanvasA* canvas, KeyFrameGroupLoader loader, void* args) {
 		style->DrawPrimitive(*screen, *canvas, this);
 		});
+	getStyle<Style>()->getValueUpdater().initial(0);
 	addEvent(Slider::_MouseEvent_, [this](void* _args, ActionableWidget* self) { style->MouseEvent(static_cast<MouseEventArgs*>(_args), self); });
 }
 

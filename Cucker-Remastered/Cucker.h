@@ -18,27 +18,22 @@ public:
 	void Initialization() override {
 		logger.SetClassName("Cucker");
 
-		console		  = Use<Console>();
-		consoleThread = Use<ConsoleThread>();
-		displayer	  = Use<Displayer>();
+		console		  = Use(new Console());
+		consoleThread = Use(new ConsoleThread());
+		displayer	  = Use(new Displayer());
 		
-		ConsoleEngine::Initialization();
+		Register();
 	}
 	void Run() override {
-		ConsoleEngine::Run();
+		consoleThread->CreateSystemThread();
 
 		while (true) {
 			try {
 				displayer->BackgroundLogic();
 				consoleThread->Supervisor();
 			}
-			catch (const ReportException& e) {
+			catch (std::exception e) {
 				logger.fatal("Exception: ", e.what());
-				break;
-			}
-			catch (std::exception& e) {
-				logger.fatal("Exception: ", e.what());
-				break;
 			}
 			Sleep(1);
 		}

@@ -2,7 +2,7 @@
 #include "Interface.h"
 #include "Engine.h"
 
-class Displayer : public EngineComponent {
+class Displayer : public ConsoleEngine::Component {
 protected:
 	ScreenA screen;
 	ScreenBlenderA blender;
@@ -14,18 +14,55 @@ public:
 	LogOverlay& logOverlay = LogOverlay::GetInstance();
 
 	Displayer() :screen(&blender), canvas(&screen) {};
-	void Insert(const std::string& id, Interface* iface);
-	void Navigate(const std::string& id);
-	void Free();
-	Interface* Get(const std::string& id);
-	~Displayer();
+	void Init(ConsoleEngine& source) override {
+		ConsoleEngine::Component::Init(source);
+	}
+	void Insert(const std::string& id, Interface* iface) {
+		iface->Creation(&screen, &canvas, &logOverlay, this);
+		manager.insert(std::make_pair(id, iface));
+	}
+	void Navigate(const std::string& id) {
+		if (!exist(id)) return;
+
+		unload();
+		load(id);
+	}
+	void Free() {
+		for (auto& ptr : manager) {
+			delete ptr.second;
+		}
+		manager.clear();
+	}
+	Interface* Get(const std::string& id) {
+		if (!exist(id)) throw ReportException("Interface (", id, ") doesn't exist");
+		return manager[id];
+	}
+	~Displayer() {
+		Free();
+	}
 protected:
-	void unload();
-	bool load(const std::string& id);
-	bool exist(std::string id);
+	void unload() {
+		if (current) current->Unload();
+	}
+	bool load(const std::string& id) {
+		if (!exist(id)) return false;
+		manager[id]->Load();
+		current = manager[id];
+
+		return true;
+	}
+	bool exist(std::string id) {
+		return manager.count(id) > 0;
+	}
 public:
-	void Render();
-	void BackgroundLogic();
+	void Render() {
+		current->onCreateScreen();
+		current->Render();
+		current->onWriteConsole();
+	}
+	void BackgroundLogic() {
+		current->BackgroundLogic();
+	}
 	template<class EventArgs, class T>
 	void SendInputArgs(T args) {
 		if constexpr (std::is_same_v<EventArgs, MouseEventArgs>) {
@@ -44,7 +81,7 @@ public:
 			current->BufferSize(args);
 		}
 		else {
-			throw ReportException("Unsupported EventArgs in SendInputArgs");
+			throw ReportException("Unsupported EventArgs in SendInput");
 		}
 	}
 };

@@ -1,6 +1,11 @@
 #pragma once
+#include <iostream>
 #include <map>
-#include "Logger.h"
+#include <io.h>       // For _setmode()
+#include "Date.h"
+#include "Converter.h"
+#include "Interface.h"
+#include "InputHandler.h"
 #include "ConsoleSetting.h"
 #include "Exceptions.h"
 
@@ -10,13 +15,9 @@ public:
 	protected:
 		ConsoleEngine* parent = nullptr;
 	public:
-		virtual void Init(ConsoleEngine* source, void* args) {
-			parent = source;
+		virtual void Init(ConsoleEngine& source) {
+			parent = &source;
 		}
-		void SetParent(ConsoleEngine* source){
-			parent = source;
-		}
-		virtual void Start() {};
 	};
 
 protected:
@@ -24,21 +25,25 @@ protected:
 	std::map<const type_info*, Component*> component;
 
 public:
-	ConsoleEngine():logger("ConsoleEngine") {};
+	ConsoleEngine() {};
 
-	virtual void Initialization();
-	virtual void Run();
-	void Free();
+	virtual void Initialization() {
+		logger.SetClassName("ConsoleEngine");
+	}
+	virtual void Run() = 0;
 
-	~ConsoleEngine();
 protected:
+	bool ExistComponent(const std::type_info& type) {
+		return component.find(&type) != component.end();
+	}
+
 	// Register interface and Navigate
 	virtual void Register() = 0;
+
 public:
 	template<class Com>
-	Com* Use(void* args = 0) {
-		auto com = new Com();
-		com->Init(this, args);
+	Com* Use(Com* com) {
+		com->Init(*this);
 		component[&typeid(Com)] = com;
 		return com;
 	}
@@ -51,7 +56,15 @@ public:
 		return *static_cast<Com*>(component[&typeid(Com)]);
 	}
 
-	bool ExistComponent(const std::type_info& type);
-};
+	void Free() {
+		for (auto& ptr : component) {
+			delete ptr.second;
+			ptr.second = nullptr;
+		}
+		component.clear();
+	}
 
-using EngineComponent = ConsoleEngine::Component;
+	~ConsoleEngine() {
+		Free();
+	}
+};

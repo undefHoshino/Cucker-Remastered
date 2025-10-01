@@ -54,9 +54,10 @@ protected:
 	Animator animator;
 public:
 	virtual void Init();
-	virtual void SetWidget(WidgetStyle* style = nullptr, WidgetData* data = nullptr);
-	void SetProperties(WidgetProperties* prop);
+	virtual void SendSignal(int signal) {};
+	virtual void HandleSignal() {};
 	virtual void Render(ScreenA& screen, CanvasA& canvas) override;
+	void SetProperties(WidgetProperties* prop);
 	Animator& getAnimator();
 	MapContainer& getContainer();
 
@@ -76,9 +77,6 @@ public:
 	T* as() {
 		return static_cast<T*>(this);
 	}
-
-	virtual void SendSignal(int signal) = delete;
-	virtual void HandleSignal() = delete;
 
 	~Widget();
 protected:
@@ -120,8 +118,4 @@ public:
 	void callEvent(int event, void* args, bool quiet = false);
 protected:
 	bool existEvent(int event);
-};
-
-class IFocusable {
-
 };

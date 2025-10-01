@@ -14,7 +14,7 @@
   
   Logger.h & LogOverlay.h - 需要升级
   
-  ConsoleThread.h - OK
+  ConsoleThread.h - ThreadManager 未完成
   
   Engine.h - 优化 Thread 结构部分
            - 需要 ThreadManager

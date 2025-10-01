@@ -1,6 +1,5 @@
 #pragma once
 #include "Interface.h"
-#include "ConsoleThread.h"
 #include "FpsOverlay.h"
 #include "Overlay.h"
 #include "HpetClock.h"
@@ -157,76 +156,10 @@ private:
 		}
 		void Render() override {
 			canvas->DrawString(2, 2, "Viewport Test", textColor);
-			//viewport.Render(*screen, *canvas);
+			viewport.Render(*screen, *canvas);
 		}
 		void Mouse(MouseEventArgs args) override {
-			//viewport.Mouse(args);
-		}
-	};
-
-	class StableTestPage : public Interface {
-	private:
-		NoobButton logSpamButton;
-		NoobButton crashBufferButton;
-		NoobButton throwExceptionButton;
-		bool crashFlag = false;
-		bool renderThrown = false;
-	public:
-		Pixel textColor = { {},{255,255,255,255} };
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
-			Interface::Creation(screen, canvas, logger, display);
-			logSpamButton.Init();
-			logSpamButton.SetProperties(new NoobButton::Properties(2,4,10,3,"Log Spam"));
-			logSpamButton.addEvent(NoobButton::onMouseHeld, [this](void* args, ActionableWidget* widget) {
-				for (size_t i = 0; i < 10; i++) {
-					this->logger->info("Spam!!!");
-					this->logger->warn("Spam!!!");
-					this->logger->error("Spam!!!");
-					this->logger->fatal("Spam!!!");
-				}
-			});
-			crashBufferButton.Init();
-			crashBufferButton.SetProperties(new NoobButton::Properties(2, 8, 20, 3, "Crash Buffers"));
-			crashBufferButton.addEvent(NoobButton::onMousePressed, [this](void* args, ActionableWidget* widget) {
-				auto& conThread = parent->GetComponent<ConsoleThread>();
-				if (conThread.hasThread("Crasher")) {
-					conThread.stopUserThread("Crasher");
-					this->logger->info("Stop Crasher Thread");
-					return;
-				}
-				conThread.addUserThread<ThreadManager::ThreadHandler>("Crasher", [this](ThreadManager::ThreadHandler& handler) -> int{
-					while (CheckConsoleInstance()) {
-						if (handler.shouldStop()) return -1;
-						HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-						CONSOLE_SCREEN_BUFFER_INFO csbi;
-						srand(time(0));
-						GetConsoleScreenBufferInfo(hConsole, &csbi);
-						short width = csbi.dwSize.X - rand() % 10;
-						short height = csbi.dwSize.Y - rand() % 10;
-						SetConsoleScreenBufferSize(hConsole, { width ,height });
-					}
-					handler.Stop();
-					this->logger->error("Stopped!");
-					return 0;
-				});
-				this->logger->info("Create Crasher Thread");
-			});
-			throwExceptionButton.Init();
-			throwExceptionButton.SetProperties(new NoobButton::Properties(24, 8, 20, 3, "Throw Exception"));
-			throwExceptionButton.addEvent(NoobButton::onMousePressed, [this](void* args, ActionableWidget* widget) {
-				renderThrown = true;
-			});
-		}
-		void Render() override {
-			canvas->DrawString(2, 2, "Stability Test", textColor);
-			canvas->DrawString(14, 5, "Logs: " + std::to_string(logger->size()), textColor);
-
-			logSpamButton.Render(*screen, *canvas);
-			crashBufferButton.Render(*screen, *canvas);
-		}
-		void Mouse(MouseEventArgs args) override {
-			logSpamButton.Mouse(args);
-			crashBufferButton.Mouse(args);
+			viewport.Mouse(args);
 		}
 	};
 
@@ -339,7 +272,7 @@ private:
 	Pixel textColor = { {},{255,255,255,255} };
 
 	unsigned char PageId = 0;
-	unsigned char PageMax = 6;
+	unsigned char PageMax = 5;
 
 	AnimationTestPage   anPage;
 	AnimationTestPage2  anPage2;
@@ -347,7 +280,6 @@ private:
 	EasingFunctionTestPage easingTestPage;
 	SliderTestPage	sliderTestPage;
 	ViewportTestPage viewportTestPage;
-	StableTestPage  stableTestPage;
 	
 	NoobButton backwardButton;
 	NoobButton forwardButton;

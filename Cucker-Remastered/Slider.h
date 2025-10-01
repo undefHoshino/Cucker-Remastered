@@ -27,7 +27,6 @@ public:
 	protected:
 		ValueUpdater<int> valueUpdater;
 	public:
-		Style();
 		virtual void DrawPrimitive(ScreenA& screen, CanvasA& canvas, Widget* widget) override;
 		virtual void MouseEvent(MouseEventArgs* args, Widget* widget) override;
 		bool inAreaJudge(const MouseEventArgs* args, const Properties& prop);
