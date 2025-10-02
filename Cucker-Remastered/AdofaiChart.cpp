@@ -62,7 +62,7 @@ void AdofaiChartJson::ClearDocument() {
 }
 
 void AdofaiChartJson::LogParseError(std::string& jsonContent) {
-    auto& logger = LogOverlay::GetInstance();
+    Logger logger;
 
     rapidjson::ParseErrorCode errorCode = chartDoc.GetParseError();
     size_t outputRange = 40;
@@ -111,7 +111,7 @@ void AdofaiChartJson::GetErrorAtLine(std::string& jsonContent, size_t errorOffse
 }
 
 void AdofaiChartJson::SettingApply(std::string& jsonContent, LoaderSetting setting) {
-    auto& log = LogOverlay::GetInstance();
+    Logger log;
 
     if (setting.clearControlChar) {
         log.info("Removing Controlchars");

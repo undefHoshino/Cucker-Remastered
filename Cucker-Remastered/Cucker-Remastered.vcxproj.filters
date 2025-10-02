@@ -162,9 +162,6 @@
     <ClCompile Include="Logger.cpp">
       <Filter>头文件\Engine\IO</Filter>
     </ClCompile>
-    <ClCompile Include="LogOverlay.cpp">
-      <Filter>头文件\Engine\Overlay</Filter>
-    </ClCompile>
     <ClCompile Include="FpsOverlay.cpp">
       <Filter>头文件\Engine\Overlay</Filter>
     </ClCompile>
@@ -344,14 +341,14 @@
     <ClInclude Include="Displayer.h">
       <Filter>头文件\Engine\Component</Filter>
     </ClInclude>
-    <ClInclude Include="LogOverlay.h">
-      <Filter>头文件\Engine\Overlay</Filter>
-    </ClInclude>
     <ClInclude Include="FpsOverlay.h">
       <Filter>头文件\Engine\Overlay</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleThread.h">
       <Filter>头文件\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Unicode.h">
+      <Filter>头文件\Engine\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

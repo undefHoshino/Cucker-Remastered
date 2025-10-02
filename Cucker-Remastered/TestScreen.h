@@ -40,7 +40,7 @@ private:
 		double speed = 1.0;
 	public:
 		void TimelineDrawer(ScreenA* screen, CanvasA* canvas, KeyFrameLoader loader);
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void Key(KeyEventArgs args) override;
@@ -51,7 +51,7 @@ private:
 		Pixel textColor = { {},{255,255,255,255} };
 		NoobButton button;
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void Key(KeyEventArgs args) override;
@@ -68,7 +68,7 @@ private:
 		TextBox textBox;
 		int lastSliderX = 0;
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void Key(KeyEventArgs args) override;
@@ -111,7 +111,7 @@ private:
 		Slider slider;
 		size_t index = 0;
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 		void DrawAxes();
@@ -130,7 +130,7 @@ private:
 
 		Pixel textColor = { {},{255,255,255,255} };
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override;
 		void Render() override;
 		void Mouse(MouseEventArgs args) override;
 	};
@@ -141,17 +141,17 @@ private:
 
 		Pixel textColor = { {},{255,255,255,255} };
 	public:
-		void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
 			Interface::Creation(screen, canvas, logger, display);
 			viewport.Init(screen, logger, display);
-			viewport.SetProperties(new Viewport::Properties({ 2, 4, 20, 10 }, { 2, 4, 120, 60 }, Viewport::MoveMode::Viewport));
+			viewport.SetProperties(new Viewport::Properties({ 2, 4, 20, 10 }, { 2, 4, 120, 60 }, Viewport::ScrollMode::MoveViewport));
 			viewport.SetScrollbarSize(1, 2);
 			viewport.UpdateScrollBar();
-			viewport.getAnimator().SetDrawer(nullptr, [this](ScreenA* screen , CanvasA* canvas, KeyFrameGroupLoader, void*) {
-				viewport.getStyle<Viewport::Style>()->DrawPrimitive(*screen, *canvas, &viewport);
-				canvas->DrawString(2, 4, "Viewport Top===========================================", textColor);
-				canvas->DrawString(2, 32, "A Sample Text", textColor);
-				canvas->DrawString(2, 63, "Viewport Bottom========================================", textColor);
+			viewport.getAnimator().SetDrawer(nullptr, [this](ScreenA* screen , CanvasA* can, KeyFrameGroupLoader, void*) {
+				viewport.getStyle<Viewport::Style>()->DrawPrimitive(*screen, *can, &viewport);
+				can->DrawString(2, 4, "Viewport Top===========================================", textColor);
+				can->DrawString(2, 32, "A Sample Text", textColor);
+				can->DrawString(2, 63, "Viewport Bottom========================================", textColor);
 			});
 		}
 		void Render() override {
@@ -160,6 +160,55 @@ private:
 		}
 		void Mouse(MouseEventArgs args) override {
 			viewport.Mouse(args);
+		}
+	};
+
+	class WidgetTestPage2 : public Interface {
+	private:
+		Pixel textColor = { {},{255,255,255,255} };
+		TextBox textbox0;
+		TextBox textbox1;
+	public:
+		void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
+			Interface::Creation(screen, canvas, logger, display);
+			textbox0.Init();
+			textbox0.SetProperties(new TextBox::Properties(4, 6, 30, 5));
+			textbox0.addEvent(TextBox::Events::onTextboxActive, [this, logger](void* args, ActionableWidget* widget) {
+				logger->info("  0 - onTextboxActive");
+				});
+			textbox0.addEvent(ActionableWidget::Events::_AcquireCaptureEvent_, [this, logger](void* _args, ActionableWidget* _self) {
+				logger->info("  0 - OnCaptureEvent");
+				});
+			textbox0.addEvent(ActionableWidget::Events::_LostCaptureEvent_, [this, logger](void* _args, ActionableWidget* _self) {
+				logger->info("  0 - LostCaptureEvent");
+				});
+
+			textbox1.Init();
+			textbox1.SetProperties(new TextBox::Properties(36, 6, 30, 5));
+			textbox1.addEvent(TextBox::Events::onTextboxActive, [this, logger](void* args, ActionableWidget* widget) {
+				logger->info("  1 - onTextboxActive");
+				});
+			textbox1.addEvent(ActionableWidget::Events::_AcquireCaptureEvent_, [this, logger](void* _args, ActionableWidget* _self) {
+				logger->info("  1 - OnCaptureEvent");
+				});
+			textbox1.addEvent(ActionableWidget::Events::_LostCaptureEvent_, [this, logger](void* _args, ActionableWidget* _self) {
+				logger->info("  1 - LostCaptureEvent");
+				});
+		}
+		void Render() override {
+			canvas->DrawString(2, 2, "Widget Interaction Test", textColor);
+			canvas->DrawString(4, 5, "TextBox 0", textColor);
+			canvas->DrawString(36, 5, "TextBox 1", textColor);
+			textbox0.Render(*screen, *canvas);
+			textbox1.Render(*screen, *canvas);
+		}
+		void Mouse(MouseEventArgs args) override {
+			textbox0.Mouse(args);
+			textbox1.Mouse(args);
+		}
+		void Key(KeyEventArgs args) override {
+			textbox0.Key(args);
+			textbox1.Key(args);
 		}
 	};
 
@@ -272,7 +321,7 @@ private:
 	Pixel textColor = { {},{255,255,255,255} };
 
 	unsigned char PageId = 0;
-	unsigned char PageMax = 5;
+	unsigned char PageMax = 6;
 
 	AnimationTestPage   anPage;
 	AnimationTestPage2  anPage2;
@@ -280,11 +329,12 @@ private:
 	EasingFunctionTestPage easingTestPage;
 	SliderTestPage	sliderTestPage;
 	ViewportTestPage viewportTestPage;
+	WidgetTestPage2 widgetTestPage2;
 	
 	NoobButton backwardButton;
 	NoobButton forwardButton;
 public:
-	void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override;
+	void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override;
 	void Render() override;
 	void Mouse(MouseEventArgs args) override;
 	void Key(KeyEventArgs args) override;

@@ -5,6 +5,12 @@ void BufferDispatcherA::SendBufferData(ScreenBufferA buf, int offsetX, int offse
 	const int bufHeight = buf.Height;
 	const int parentWidth = buffer->Width;  // 获取主屏幕宽度
 	const int parentHeight = buffer->Height; // 获取主屏幕高度
+
+	borderTop = std::max(0, borderTop);
+	borderBottom = std::min(parentHeight, borderTop);
+	borderLeft = std::max(0, borderLeft);
+	borderRight = std::min(parentWidth, borderRight);
+
 	for (int y = 0; y < bufHeight; ++y) {
 		int targetY = offsetY + y;
 

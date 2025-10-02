@@ -39,9 +39,9 @@ public:
 		virtual void DrawPrimitive(ScreenA& screen, CanvasA& canvas, Widget* widget) {}
 		virtual void MouseEvent(MouseEventArgs* args, Widget* widget) {};
 		virtual void KeyEvent(KeyEventArgs* args, Widget* widget) {};
-		virtual void FocusEvent(FocusEventArgs* args, Widget* widget) {};
-		virtual void MenuEvent(MenuEventArgs* args, Widget* widget) {};
-		virtual void BufferSizeEvent(BufferEventArgs* args, Widget* widget) {};
+		virtual void WinFocusEvent(WinFocusEventArgs* args, Widget* widget) {};
+		virtual void WinMenuEvent(WinMenuEventArgs* args, Widget* widget) {};
+		virtual void WinBufferSizeEvent(WinBufferEventArgs* args, Widget* widget) {};
 		virtual void UpdateEvent(Widget* widget) {}
 	};
 protected:
@@ -88,12 +88,16 @@ protected:
 class ActionableWidget : public Widget {
 public:
 	enum Events {
-		_MouseEvent_ = -1,  // MouseEventArgs
-		_KeyEvent_ = -2,  // KeyEventArgs
-		_FocusEvent_ = -3,  // FocusEventArgs
-		_MenuEvent_ = -4,  // MenuEventArgs
-		_BufferSizeEvent_ = -5,  // BufferEventArgs
-		_UpdateEvent_ = -6   // 
+		_MouseEvent_			= -1,  // MouseEventArgs
+		_KeyEvent_				= -2,  // KeyEventArgs
+		_WinFocusEvent_			= -3,  // WinFocusEventArgs
+		_WinMenuEvent_			= -4,  // WinMenuEventArgs
+		_WinBufferSizeEvent_	= -5,  // WinBufferEventArgs
+		_UpdateEvent_			= -6,  // Update
+		_AcquireCaptureEvent_		= -7,  // gain Capture
+		_LostCaptureEvent_		= -8,  // lost Capture
+		_AcquireFocusEvent_		= -9,  // gain Focus
+		_LostFocusEvent_		= -10, // lost Focus
 	};
 protected:
 	using _EventFunction = std::function<void(void*, ActionableWidget*)>;
@@ -103,9 +107,9 @@ protected:
 public:
 	virtual void Mouse(MouseEventArgs args) override;
 	virtual void Key(KeyEventArgs args) override;
-	virtual void Focus(FocusEventArgs args) override;
-	virtual void Menu(MenuEventArgs args) override;
-	virtual void BufferSize(BufferEventArgs args) override;
+	virtual void WinFocus(WinFocusEventArgs args) override;
+	virtual void WinMenu(WinMenuEventArgs args) override;
+	virtual void WinBufferSize(WinBufferEventArgs args) override;
 	virtual void Render(ScreenA& screen, CanvasA& canvas) override;
 	virtual void Update() override;
 
@@ -118,4 +122,72 @@ public:
 	void callEvent(int event, void* args, bool quiet = false);
 protected:
 	bool existEvent(int event);
+};
+
+class InputStateManager {
+public:
+	virtual bool MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) { return true; };
+	virtual void MouseBackground(MouseEventArgs* args) {};
+	virtual ~InputStateManager() = default;
+};
+
+
+class MouseCapture: public InputStateManager {
+private:
+	MouseCapture() = default;
+public:
+	bool capturing = false;
+	bool backgroundCaptured = false;
+	ActionableWidget* capturedWidget = nullptr;
+public:
+	MouseCapture(const MouseCapture&) = delete;
+	MouseCapture& operator=(const MouseCapture&) = delete;
+
+	static MouseCapture& getInstance();
+	bool MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) override;
+	void MouseBackground(MouseEventArgs* args) override;
+	void capture(ActionableWidget* widget);
+	void release();
+	bool isCaptured() const;
+	ActionableWidget* getCapturedWidget() const;
+	bool shouldDeliverTo(ActionableWidget* widget) const;
+};
+
+
+class WidgetFocus : public InputStateManager {
+private:
+	WidgetFocus() = default;
+public:
+	bool isHitWidget = false;
+	bool backgroundFocus = false;
+	ActionableWidget* focusedWidget = nullptr;
+public:
+	WidgetFocus(const WidgetFocus&) = delete;
+	WidgetFocus& operator=(const WidgetFocus&) = delete;
+
+	static WidgetFocus& getInstance();
+	bool MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) override;
+	void MouseBackground(MouseEventArgs* args) override;
+	void setFocus(ActionableWidget* widget);
+	void clearFocus();
+	bool hasFocusedWidget();
+	ActionableWidget* getFocusedWidget() const;
+};
+
+
+class UnifiedStateManager: public InputStateManager {
+private:
+	MouseCapture* mouseCaptureInst = nullptr;
+	WidgetFocus* widgetFocusInst = nullptr;
+
+	UnifiedStateManager();
+public:
+	UnifiedStateManager(const UnifiedStateManager&) = delete;
+	UnifiedStateManager& operator=(const UnifiedStateManager&) = delete;
+
+	static UnifiedStateManager& getInstance();
+	bool MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) override;
+	void MouseBackground(MouseEventArgs* args) override;
+	bool isCaptured();
+	bool isFocused();
 };

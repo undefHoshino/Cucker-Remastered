@@ -10,7 +10,7 @@ void Console::Init(ConsoleEngine& source) {
 		logger.error("Failed in setVisual().");
 	}
 	else {
-		logger.SetAnsiOutput(true);
+		logger.SetANSI(true);
 	}
 }
 

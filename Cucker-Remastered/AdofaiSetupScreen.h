@@ -27,7 +27,7 @@ private:
         Label errorLabel;
         bool isReady = false;
     public:
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
             button.Init();
             button.SetProperties(new NoobButton::Properties(0, 0, 10, 3, "Build!"));
@@ -112,7 +112,7 @@ private:
             button.SetProperties(new RadioButton::Properties(x, y));
             button.setStateToggle(toggle);
         }
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
             InitRadioButton(isRemoveBOMButton, 16, 6, true);
             InitRadioButton(clearAnsiCharButton, 20, 8, false);
@@ -186,7 +186,7 @@ private:
     SetupSettingScreen setupSettingScreen;
 public:
     AdofaiSetupScreen() {};
-    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+    void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
         Interface::Creation(screen, canvas, logger, display);
         ifManager.addInterface("Setup", &setupScreen);
         ifManager.addInterface("Setup_Setting", &setupSettingScreen);

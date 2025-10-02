@@ -26,6 +26,7 @@ public:
     void CreateSystemThread() {
         auto& displayer = parent->GetComponent<Displayer>();
         addSystemThread<RenderHandler>("Render", [this, &displayer](std::shared_ptr<ThreadHandler>handler) {
+            $CSetting.SetVisual(true);
             while (handler->getSignal() != ThreadManager::Signal::Exit) {
                 try {
                     displayer.Render();
@@ -37,6 +38,7 @@ public:
                     logger.error("Unknown exception caught");
                 }
             }
+            $CSetting.SetVisual(false);
             });
         addSystemThread<InputWorkerHandler>("InputWorker", [this, &displayer](std::shared_ptr<ThreadHandler>handler) {
             DWORD EventMAX = ConsoleSetting().inputEventMAX;
@@ -49,7 +51,7 @@ public:
                     GetNumberOfConsoleInputEvents(hInput, &NumberOfEvents);
                     if (NumberOfEvents >= EventMAX) {
                         FlushConsoleInputBuffer(hInput);
-                        displayer.logOverlay.error("Events Overflow.");
+                        displayer.logger.error("Events Overflow.");
                     }
                     switch (InputRecord.EventType) {
                     case MOUSE_EVENT:
@@ -59,25 +61,25 @@ public:
                         displayer.SendInputArgs<KeyEventArgs>(KeyEventHandler::Translate(InputRecord.Event.KeyEvent));
                         break;
                     case FOCUS_EVENT:
-                        displayer.SendInputArgs<FocusEventArgs>(FocusEventHandler::Translate(InputRecord.Event.FocusEvent));
+                        displayer.SendInputArgs<WinFocusEventArgs>(WinFocusEventHandler::Translate(InputRecord.Event.FocusEvent));
                         //if (!InputRecord.Event.FocusEvent.bSetFocus) {
                         //    view.display().logger.LogInfo("[!] Shrinking memory... ");
                         //    view.FreeMemory();
                         //}
                         break;
                     case MENU_EVENT:
-                        displayer.SendInputArgs<MenuEventArgs>(MenuEventHandler::Translate(InputRecord.Event.MenuEvent));
+                        displayer.SendInputArgs<WinMenuEventArgs>(WinMenuEventHandler::Translate(InputRecord.Event.MenuEvent));
                         break;
                     case WINDOW_BUFFER_SIZE_EVENT:
-                        displayer.SendInputArgs<BufferEventArgs>(BufferEventHandler::Translate(InputRecord.Event.WindowBufferSizeEvent));
+                        displayer.SendInputArgs<WinBufferEventArgs>(WinBufferEventHandler::Translate(InputRecord.Event.WindowBufferSizeEvent));
                         break;
                     }
                 }
                 catch (const std::exception& ex) {
-                    displayer.logOverlay.error(ex.what());
+                    displayer.logger.error(ex.what());
                 }
                 catch (...) {
-                    displayer.logOverlay.error("Error during key.");
+                    displayer.logger.error("Error during key.");
                 }
             }
             logger.fatal("InputWorker unexpectedly exited");

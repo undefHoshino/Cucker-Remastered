@@ -9,7 +9,7 @@ public:
     virtual void Update() {};
     virtual void Mouse(MouseEventArgs args) {}
     virtual void Key(KeyEventArgs args) {}
-    virtual void Focus(FocusEventArgs args) {}
-    virtual void Menu(MenuEventArgs args) {}
-    virtual void BufferSize(BufferEventArgs args) {}
+    virtual void WinFocus(WinFocusEventArgs args) {}
+    virtual void WinMenu(WinMenuEventArgs args) {}
+    virtual void WinBufferSize(WinBufferEventArgs args) {}
 };

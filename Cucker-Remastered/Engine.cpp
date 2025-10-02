@@ -118,17 +118,17 @@
 //                display.SendInputArgs<KeyEventArgs>(KeyEventHandler::Translate(InputRecord.Event.KeyEvent));
 //                break;
 //            case FOCUS_EVENT:
-//                display.SendInputArgs<FocusEventArgs>(FocusEventHandler::Translate(InputRecord.Event.FocusEvent));
+//                display.SendInputArgs<WinFocusEventArgs>(WinFocusEventHandler::Translate(InputRecord.Event.FocusEvent));
 //                //if (!InputRecord.Event.FocusEvent.bSetFocus) {
 //                //    view.display().logger.LogInfo("[!] Shrinking memory... ");
 //                //    view.FreeMemory();
 //                //}
 //                break;
 //            case MENU_EVENT:
-//                display.SendInputArgs<MenuEventArgs>(MenuEventHandler::Translate(InputRecord.Event.MenuEvent));
+//                display.SendInputArgs<WinMenuEventArgs>(WinMenuEventHandler::Translate(InputRecord.Event.MenuEvent));
 //                break;
 //            case WINDOW_BUFFER_SIZE_EVENT:
-//                display.SendInputArgs<BufferEventArgs>(BufferEventHandler::Translate(InputRecord.Event.WindowBufferSizeEvent));
+//                display.SendInputArgs<WinBufferEventArgs>(WinBufferEventHandler::Translate(InputRecord.Event.WindowBufferSizeEvent));
 //                break;
 //            }
 //        }

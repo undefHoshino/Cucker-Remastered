@@ -36,10 +36,12 @@ void Slider::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 	auto& prop = *widget->getProperties<Properties>();
 	auto& data = *widget->getData<Data>();
 	auto& style = *widget->getStyle<Style>();
-
 	bool inArea = inAreaJudge(args, prop);
 
-	if (inArea && args->buttonState[0]) {
+	auto& uniState = UnifiedStateManager::getInstance();
+	if (!uniState.MouseInput(args, &actionable, inArea)) return;
+
+	if ((inArea && args->buttonState[0]) || uniState.isCaptured()) {
 		data.sliderValue = getSliderValueForDirection(prop.direction, args, prop);
 
 		actionable.callEvent(Events::onSliderMoving, args, true);
@@ -205,6 +207,8 @@ void Scrollbar::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 	auto& style = *widget->getStyle<Style>();
 
 	bool inArea = inAreaJudge(args, prop, data);
+	auto& uniState = UnifiedStateManager::getInstance();
+	if (!uniState.MouseInput(args, &actionable, inArea)) return;
 
 	int mousePos = 0;
 	bool isHorizontal = false;
@@ -225,7 +229,7 @@ void Scrollbar::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 
 	dragScrollSlider(args, inArea, prop, data, isHorizontal, isVertical, &actionable);
 
-	if (inArea || isDragging) {
+	if (inArea || isDragging || uniState.isCaptured()) {
 		actionable.callEvent(Slider::Events::onSliderMoving, args, true);
 		if (style.valueUpdater.update(data.sliderValue))
 			actionable.callEvent(Slider::Events::onSliderValueChanged, args, true);

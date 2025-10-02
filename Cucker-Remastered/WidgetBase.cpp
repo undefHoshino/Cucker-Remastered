@@ -59,16 +59,16 @@ void ActionableWidget::Key(KeyEventArgs args) {
 	callEvent(Events::_KeyEvent_, static_cast<void*>(&args));
 }
 
-void ActionableWidget::Focus(FocusEventArgs args) {
-	callEvent(Events::_FocusEvent_, static_cast<void*>(&args));
+void ActionableWidget::WinFocus(WinFocusEventArgs args) {
+	callEvent(Events::_WinFocusEvent_, static_cast<void*>(&args));
 }
 
-void ActionableWidget::Menu(MenuEventArgs args) {
-	callEvent(Events::_MenuEvent_, static_cast<void*>(&args));
+void ActionableWidget::WinMenu(WinMenuEventArgs args) {
+	callEvent(Events::_WinMenuEvent_, static_cast<void*>(&args));
 }
 
-void ActionableWidget::BufferSize(BufferEventArgs args) {
-	callEvent(Events::_BufferSizeEvent_, static_cast<void*>(&args));
+void ActionableWidget::WinBufferSize(WinBufferEventArgs args) {
+	callEvent(Events::_WinBufferSizeEvent_, static_cast<void*>(&args));
 }
 
 void ActionableWidget::Render(ScreenA& screen, CanvasA& canvas) {
@@ -113,4 +113,154 @@ void ActionableWidget::SetWidgetRectSize(UINT width, UINT height) {
 	auto& prop = *getProperties<RectProperties>();
 	prop.Width = width;
 	prop.Height = height;
+}
+
+MouseCapture& MouseCapture::getInstance() {
+	static MouseCapture instance;
+	return instance;
+}
+
+bool MouseCapture::MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) {
+	if (!shouldDeliverTo(widget) || backgroundCaptured) return false;
+
+	if (!args->buttonState[0] && isCaptured()) {
+		capturedWidget->callEvent(ActionableWidget::Events::_LostCaptureEvent_, 0, true);
+		release();
+	}
+
+	if (args->buttonState[0] && !capturing && isInArea) {
+		capture(widget);
+		capturedWidget->callEvent(ActionableWidget::Events::_AcquireCaptureEvent_, 0, true);
+	}
+
+	return true;
+}
+
+void MouseCapture::MouseBackground(MouseEventArgs* args) {
+	if (isCaptured()) return;
+
+	if (args->buttonState[0]) {
+		if (!backgroundCaptured) {
+			release();
+			backgroundCaptured = true;
+		}
+	}
+	else if (backgroundCaptured) {
+		backgroundCaptured = false;
+	}
+}
+
+void MouseCapture::capture(ActionableWidget* widget) {
+	release();
+	capturing = true;
+	capturedWidget = widget;
+}
+
+void MouseCapture::release() {
+	capturing = false;
+	capturedWidget = nullptr;
+}
+
+bool MouseCapture::isCaptured() const {
+	return capturedWidget != nullptr;
+}
+
+ActionableWidget* MouseCapture::getCapturedWidget() const {
+	return capturedWidget;
+}
+
+bool MouseCapture::shouldDeliverTo(ActionableWidget* widget) const {
+	return !isCaptured() || capturedWidget == widget;
+}
+
+
+WidgetFocus& WidgetFocus::getInstance() {
+	static WidgetFocus instance;
+	return instance;
+}
+
+bool WidgetFocus::MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) {
+	if (args->buttonState[0] && isInArea) {
+		setFocus(widget);
+		isHitWidget = true;
+	}
+
+	return true;
+}
+
+void WidgetFocus::MouseBackground(MouseEventArgs* args) {
+	if (isHitWidget) {
+		isHitWidget = false;
+		return;
+	}
+
+	if (args->buttonState[0]) {
+		if (!backgroundFocus) {
+			clearFocus();
+			backgroundFocus = true;
+		}
+	}
+	else if (backgroundFocus) {
+		backgroundFocus = false;
+	}
+}
+
+void WidgetFocus::setFocus(ActionableWidget* widget) {
+	if (focusedWidget == widget) return;
+
+	if (hasFocusedWidget()) {
+		focusedWidget->callEvent(ActionableWidget::Events::_LostFocusEvent_, 0, true);
+	}
+
+	focusedWidget = widget;
+
+	if (hasFocusedWidget()) {
+		focusedWidget->callEvent(ActionableWidget::Events::_AcquireFocusEvent_, 0, true);
+	}
+}
+
+void WidgetFocus::clearFocus() {
+	setFocus(nullptr);
+}
+
+bool WidgetFocus::hasFocusedWidget() {
+	return focusedWidget != nullptr;
+}
+
+ActionableWidget* WidgetFocus::getFocusedWidget() const {
+	return focusedWidget;
+}
+
+
+UnifiedStateManager::UnifiedStateManager() {
+	mouseCaptureInst = &MouseCapture::getInstance();
+	widgetFocusInst = &WidgetFocus::getInstance();
+}
+UnifiedStateManager& UnifiedStateManager::getInstance() {
+	static UnifiedStateManager instance;
+	return instance;
+}
+
+bool UnifiedStateManager::MouseInput(MouseEventArgs* args, ActionableWidget* widget, bool isInArea) {
+	if (!mouseCaptureInst->MouseInput(args, widget, isInArea)) {
+		return false;
+	}
+
+	widgetFocusInst->MouseInput(args, widget, isInArea);
+	return true;
+}
+
+void UnifiedStateManager::MouseBackground(MouseEventArgs* args) {
+	mouseCaptureInst->MouseBackground(args);
+	if (!mouseCaptureInst->isCaptured()) {
+		widgetFocusInst->MouseBackground(args);
+	}
+}
+
+bool UnifiedStateManager::isCaptured() {
+	return mouseCaptureInst->isCaptured();
+}
+
+bool UnifiedStateManager::isFocused() {
+	return widgetFocusInst->hasFocusedWidget();
 }

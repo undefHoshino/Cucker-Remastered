@@ -11,14 +11,14 @@ protected:
 	std::unordered_map<std::string, Interface*> manager;
 	Interface* current = nullptr;
 public:
-	LogOverlay& logOverlay = LogOverlay::GetInstance();
+	Logger logger;
 
 	Displayer() :screen(&blender), canvas(&screen) {};
 	void Init(ConsoleEngine& source) override {
 		ConsoleEngine::Component::Init(source);
 	}
 	void Insert(const std::string& id, Interface* iface) {
-		iface->Creation(&screen, &canvas, &logOverlay, this);
+		iface->Creation(&screen, &canvas, &logger, this);
 		manager.insert(std::make_pair(id, iface));
 	}
 	void Navigate(const std::string& id) {
@@ -71,14 +71,14 @@ public:
 		else if constexpr (std::is_same_v<EventArgs, KeyEventArgs>) {
 			current->Key(args);
 		}
-		else if constexpr (std::is_same_v<EventArgs, FocusEventArgs>) {
-			current->Focus(args);
+		else if constexpr (std::is_same_v<EventArgs, WinFocusEventArgs>) {
+			current->WinFocus(args);
 		}
-		else if constexpr (std::is_same_v<EventArgs, MenuEventArgs>) {
-			current->Menu(args);
+		else if constexpr (std::is_same_v<EventArgs, WinMenuEventArgs>) {
+			current->WinMenu(args);
 		}
-		else if constexpr (std::is_same_v<EventArgs, BufferEventArgs>) {
-			current->BufferSize(args);
+		else if constexpr (std::is_same_v<EventArgs, WinBufferEventArgs>) {
+			current->WinBufferSize(args);
 		}
 		else {
 			throw ReportException("Unsupported EventArgs in SendInput");

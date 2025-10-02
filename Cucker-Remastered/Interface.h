@@ -1,7 +1,7 @@
 #pragma once
 #include "Screen.h"
 #include "Canvas.h"
-#include "LogOverlay.h"
+#include "Logger.h"
 #include "FpsOverlay.h"
 #include "InputHandler.h"
 #include "ConsoleFunction.h"
@@ -12,18 +12,18 @@ class Interface {
 protected:
     ScreenA* screen = nullptr;
     CanvasA* canvas = nullptr;
-    LogOverlay* logger = nullptr;
+    Logger* logger = nullptr;
     Displayer* displayer = nullptr;
 public:
-    virtual void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* displayer);
+    virtual void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* displayer);
     virtual void Load() {};
     virtual void Unload() {};
     virtual void Render() {};
     virtual void Mouse(MouseEventArgs args) {}
     virtual void Key(KeyEventArgs args) {}
-    virtual void Focus(FocusEventArgs args) {}
-    virtual void Menu(MenuEventArgs args) {}
-    virtual void BufferSize(BufferEventArgs args) {}
+    virtual void WinFocus(WinFocusEventArgs args) {}
+    virtual void WinMenu(WinMenuEventArgs args) {}
+    virtual void WinBufferSize(WinBufferEventArgs args) {}
     virtual void BackgroundLogic() {};
     virtual void onCreateScreen();
     virtual void onWriteConsole();
@@ -48,7 +48,7 @@ if (invokeMethod == InvokeMethod::Deque) { \
 } else { \
     activeInterface->func; \
 }
-    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) {
+    void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) {
         _InterfaceInvoke(Creation(screen, canvas, logger, display));
     }
     void Load() {
@@ -66,14 +66,14 @@ if (invokeMethod == InvokeMethod::Deque) { \
     void Key(KeyEventArgs args) {
         _InterfaceInvoke(Key(args));
     }
-    void Focus(FocusEventArgs args) {
-        _InterfaceInvoke(Focus(args));
+    void WinFocus(WinFocusEventArgs args) {
+        _InterfaceInvoke(WinFocus(args));
     }
-    void Menu(MenuEventArgs args) {
-        _InterfaceInvoke(Menu(args));
+    void WinMenu(WinMenuEventArgs args) {
+        _InterfaceInvoke(WinMenu(args));
     }
-    void BufferSize(BufferEventArgs args) {
-        _InterfaceInvoke(BufferSize(args));
+    void WinBufferSize(WinBufferEventArgs args) {
+        _InterfaceInvoke(WinBufferSize(args));
     }
     void BackgroundLogic() {
         _InterfaceInvoke(BackgroundLogic());
@@ -177,14 +177,14 @@ if (invokeMethod == InvokeMethod::Deque) { \
 //        else if constexpr (std::is_same_v<EventArgs, KeyEventArgs>) {
 //            iface->Key(args);
 //        }
-//        else if constexpr (std::is_same_v<EventArgs, FocusEventArgs>) {
-//            iface->Focus(args);
+//        else if constexpr (std::is_same_v<EventArgs, WinFocusEventArgs>) {
+//            iface->WinFocus(args);
 //        }
-//        else if constexpr (std::is_same_v<EventArgs, MenuEventArgs>) {
-//            iface->Menu(args);
+//        else if constexpr (std::is_same_v<EventArgs, WinMenuEventArgs>) {
+//            iface->WinMenu(args);
 //        }
-//        else if constexpr (std::is_same_v<EventArgs, BufferEventArgs>) {
-//            iface->BufferSize(args);
+//        else if constexpr (std::is_same_v<EventArgs, WinBufferEventArgs>) {
+//            iface->WinBufferSize(args);
 //        }
 //        else {
 //            throw std::runtime_error("Unsupported EventArgs in SendInput");

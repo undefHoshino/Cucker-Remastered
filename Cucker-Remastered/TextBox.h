@@ -15,6 +15,7 @@ public:
 	private:
 		bool drawLineNum = false;
 		bool shouldFillEntireRect = true;
+		bool isActive = false;
 	public:
 		virtual void DrawPrimitive(ScreenA& screen, CanvasA& canvas, Widget* widget) override;
 		virtual void MouseEvent(MouseEventArgs* args, Widget* self) override;
@@ -23,6 +24,7 @@ public:
 		void DrawSelection(ScreenA& screen, CanvasA& canvas, TextBox* textBox, int textBoxX, int textBoxY);
 		void setLineNumberVisibility(bool visible);
 		void setShouldFillEntireRect(bool flag);
+		void setActive(bool flag);
 	};
 protected:
 	TextInputControl inputControl;

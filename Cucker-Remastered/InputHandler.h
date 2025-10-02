@@ -333,35 +333,35 @@ public:
     }
 };
 
-struct FocusEventArgs {
+struct WinFocusEventArgs {
     bool focus;
 };
 
-class FocusEventHandler {
+class WinFocusEventHandler {
 public:
-    static FocusEventArgs Translate(FOCUS_EVENT_RECORD record) {
+    static WinFocusEventArgs Translate(FOCUS_EVENT_RECORD record) {
         return { (bool)record.bSetFocus };
     }
 };
 
-struct MenuEventArgs {
+struct WinMenuEventArgs {
     UINT commandId;
 };
 
-class MenuEventHandler {
+class WinMenuEventHandler {
 public:
-    static MenuEventArgs Translate(MENU_EVENT_RECORD record) {
+    static WinMenuEventArgs Translate(MENU_EVENT_RECORD record) {
         return { record.dwCommandId };
     }
 };
 
-struct BufferEventArgs {
+struct WinBufferEventArgs {
     COORD size;
 };
 
-class BufferEventHandler {
+class WinBufferEventHandler {
 public:
-    static BufferEventArgs Translate(WINDOW_BUFFER_SIZE_RECORD record) {
+    static WinBufferEventArgs Translate(WINDOW_BUFFER_SIZE_RECORD record) {
         return { record.dwSize };
     }
 };

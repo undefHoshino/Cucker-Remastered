@@ -1,6 +1,6 @@
 #include "Interface.h"
 
-void Interface::Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* displayer) {
+void Interface::Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* displayer) {
     this->screen = screen;
     this->canvas = canvas;
     this->logger = logger;
@@ -13,7 +13,7 @@ void Interface::onCreateScreen() {
 }
 
 void Interface::onWriteConsole() {
-    logger->Render(*screen, *canvas);
+    logger->LogOverlayRender(*screen, *canvas);
     screen->execute();
     screen->write();
 }

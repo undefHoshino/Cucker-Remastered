@@ -73,13 +73,17 @@ void NoobButton::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 	auto& actionable = *widget->as<ActionableWidget>();
 	auto& style = *widget->getStyle<Style>();
 	auto& prop = *widget->getProperties<Button::Properties>();
+
 	bool inArea = InputCondition::Mouse::InArea(prop.X, prop.Y, prop.Width, prop.Height, *args);
+	
+	auto& uniState = UnifiedStateManager::getInstance();
+	if (!uniState.MouseInput(args, &actionable, inArea)) return;
 
 	MouseEventArgsEx output;
 	output.inArea = inArea;
 	output.args = *args;
 
-	if (inArea) {
+	if (inArea || uniState.isCaptured()) {
 		if (args->buttonState[0]) {
 			style.setIndex(2);
 			actionable.callEvent(Events::onMouseHeld, args, true);

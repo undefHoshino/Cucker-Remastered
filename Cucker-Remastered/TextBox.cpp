@@ -9,6 +9,7 @@ void TextBox::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 	auto* textbox = widget->as<TextBox>();
 	auto* prop = widget->getProperties<Properties>();
 	auto& inputer = textbox->inputControl;
+
 	int judgeX = prop->X;
 	int judgeY = prop->Y;
 	int judgeWidth = prop->Width;
@@ -28,10 +29,13 @@ void TextBox::Style::MouseEvent(MouseEventArgs* args, Widget* widget) {
 
 	bool inArea = InputCondition::Mouse::InArea(judgeX, judgeY, judgeWidth, judgeHeight, *args);
 
-	if (inArea) {
-		if (args->buttonState[0]) {
-			inputer.enable();
+	auto& uniState = UnifiedStateManager::getInstance();
+	if (!uniState.MouseInput(args, (ActionableWidget*)textbox, inArea)) return;
+
+	if (inArea || uniState.isCaptured()) {
+		if (args->buttonState[0] && !isActive) {
 			textbox->callEvent(Events::onTextboxActive, args, true);
+			setActive(true);
 		}
 	}
 
@@ -42,6 +46,7 @@ void TextBox::Style::KeyEvent(KeyEventArgs* args, Widget* widget) {
 	auto& inputer = textbox->inputControl;
 	if (args->keyCode == VirtualKeyCode::Escape) {
 		inputer.disable();
+		setActive(false);
 	}
 	inputer.KeyEvent(*args);
 };
@@ -131,6 +136,10 @@ void TextBox::Style::setShouldFillEntireRect(bool flag) {
 	this->shouldFillEntireRect = flag;
 }
 
+void TextBox::Style::setActive(bool flag) {
+	this->isActive = flag;
+}
+
 void TextBox::Init() {
 	Widget::Init();
 	SetStyle(new Style());
@@ -140,6 +149,12 @@ void TextBox::Init() {
 	SetDrawer([this](ScreenA* screen, CanvasA* canvas, KeyFrameGroupLoader loader, void* args) {
 		style->DrawPrimitive(*screen, *canvas, this);
 		});
+	addEvent(ActionableWidget::Events::_AcquireFocusEvent_, [this](void* _args, ActionableWidget* self) {
+		inputControl.enable();
+	});
+	addEvent(ActionableWidget::Events::_LostFocusEvent_, [this](void* _args, ActionableWidget* self) {
+		inputControl.disable();
+	});
 }
 
 void TextBox::SetMaxLine(size_t maxLine) {

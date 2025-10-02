@@ -38,7 +38,7 @@ private:
         NoobButton writeButton;
         int ColumnX = 15;
     public:
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
 
             eraseButton.Init();
@@ -95,7 +95,7 @@ private:
     private:
         int ColumnX = 15;
     public:
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
 
         }
@@ -130,7 +130,7 @@ private:
         TextBox syncInputArgs1TextBox;
         TextBox syncInputArgs2TextBox;
     public:
-        void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+        void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
             Interface::Creation(screen, canvas, logger, display);
             module1Button.Init();
             module1Button.SetProperties(new NoobButton::Properties(ColumnX + 2, 4, 30, 3, "Replace Effect Position"));
@@ -210,7 +210,7 @@ private:
     class ChartModule {
     public:
         static void ReplaceEffectPosition(rapidjson::Document& document) {
-            auto& log = LogOverlay::GetInstance();
+            Logger log;
             std::string TilePositionEnum[3] = {
                 "ThisTile",
                 "Start",
@@ -260,7 +260,7 @@ private:
             log.info("Completed");
         }
         static void SyncTrackPosOffset(rapidjson::Document& document,int64_t startFloor,int64_t endFloor) {
-            auto& log = LogOverlay::GetInstance();
+            Logger log;
             std::string TilePositionEnum[3] = {
                 "ThisTile",
                 "Start",
@@ -400,7 +400,7 @@ private:
 
     int ColumnX = 15;
 public:
-    void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+    void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
         Interface::Creation(screen, canvas, logger, display);
         ifManager.addInterface(0, &chartScreen);
         ifManager.addInterface(1, &chartSettingScreen);

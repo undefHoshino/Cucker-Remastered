@@ -8,8 +8,7 @@
 #include <prettywriter.h>
 #include <document.h>
 #include <error/en.h> // Ìá¹©´íÎóÂëµÄ×Ö·û´®ÃèÊö
-#include "Chroma.h"
-#include "LogOverlay.h"
+#include "Logger.h"
 
 
 // Version 15
@@ -604,12 +603,10 @@ public:
     class JsonValueAccessor {
     protected:
         const rapidjson::Value& obj;
-        LogOverlay* log = nullptr;
+        Logger log;
         static bool verify;
     public:
-        JsonValueAccessor(const rapidjson::Value& obj) :obj(obj) {
-            log = &LogOverlay::GetInstance();
-        };
+        JsonValueAccessor(const rapidjson::Value& obj) :obj(obj) {};
         static void SetVerify(bool flag) {
             verify = flag;
         }
@@ -618,7 +615,7 @@ public:
         static void GetNumberFromArray(const rapidjson::Value& value, T& field) {
             static_assert(std::is_arithmetic<T>::value, "GetNumberFromArray requires an arithmetic type!");
             if (value.IsNull()) {
-                LogOverlay::GetInstance().warn("GetNumberFromArray: Value is null");
+                Logger().warn("GetNumberFromArray: Value is null");
                 return;
             }
             if (value.IsDouble()) {
@@ -634,7 +631,7 @@ public:
                 field = static_cast<T>(value.GetUint64());
             }
             else {
-                LogOverlay::GetInstance().error("Array value is not a compatible number type");
+                Logger().error("Array value is not a compatible number type");
             }
         }
 
@@ -655,7 +652,7 @@ public:
                     field = static_cast<T>(value.GetUint64());
                 }
                 else {
-                    log->error("Field '", fieldName, "' is not a compatible number type");
+                    log.error("Field '", fieldName, "' is not a compatible number type");
                 }
             });
         }
@@ -665,7 +662,7 @@ public:
                     field = value.GetString();
                 }
                 else {
-                    log->error("Value '", fieldName, "' is not a compatible string type");
+                    log.error("Value '", fieldName, "' is not a compatible string type");
                 }
             });
         }
@@ -675,7 +672,7 @@ public:
                     field = value.GetBool();
                 }
                 else {
-                    log->error("Value '", fieldName, "' is not a compatible boolean type");
+                    log.error("Value '", fieldName, "' is not a compatible boolean type");
                 }
             });
         }
@@ -685,7 +682,7 @@ public:
                     field = Color::FromHex(value.GetString());
                 }
                 else {
-                    log->error("Value '", fieldName, "' is not a compatible string type");
+                    log.error("Value '", fieldName, "' is not a compatible string type");
                 }
             });
         }
@@ -696,7 +693,7 @@ public:
                     field = Table::Get(value.GetString());
                 }
                 else {
-                    log->error("Value '", fieldName, "' is not a compatible string type");
+                    log.error("Value '", fieldName, "' is not a compatible string type");
                 }
             });
         }
@@ -716,13 +713,13 @@ public:
             if (obj.HasMember(fieldName)) {
                 const auto& value = obj[fieldName];
                 if (value.IsNull()) {
-                    log->warn("Field '", fieldName, "' is null");
+                    log.warn("Field '", fieldName, "' is null");
                     return;
                 }
                 func(value);
             }
             else {
-                log->warn("Field '", fieldName, "' is missing in the JSON object");
+                log.warn("Field '", fieldName, "' is missing in the JSON object");
             }
         }
     };
@@ -873,7 +870,7 @@ public:
             });
         }
         static void checkLevelVersion(AdofaiChart::ChartSetting& data, const rapidjson::Value& settings) {
-            auto& log = LogOverlay::GetInstance();
+            Logger log;
             auto& version = data.levelVersion.version;
             version = settings["version"].GetInt();
             if (version != AdofaiChart::ChartVersion) {
@@ -932,7 +929,7 @@ public:
             chartData.chart.ReadFileAndParse(filePath, setting);
         }
         catch (std::exception e) {
-            LogOverlay::GetInstance().error(e.what());
+            Logger().error(e.what());
             return false;
         }
 
@@ -986,7 +983,7 @@ public:
         std::ofstream ofs(chartData.filepath);
 
         if (!ofs.is_open()) {
-            LogOverlay::GetInstance().error("Failed to open file for writing: ", chartData.filepath);
+            Logger().error("Failed to open file for writing: ", chartData.filepath);
             return;
         }
 
@@ -1032,7 +1029,7 @@ public:
                 return settings["song"].GetString();
             }
             else {
-                LogOverlay::GetInstance().error("song key is missing or not a string");
+                Logger().error("song key is missing or not a string");
             }
         }
         return "";

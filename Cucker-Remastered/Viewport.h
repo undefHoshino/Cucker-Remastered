@@ -1,6 +1,5 @@
 #pragma once
 #include "WidgetBase.h"
-#include "LogOverlay.h"
 #include "Slider.h"
 #include "BufferDispatcher.h"
 
@@ -100,9 +99,9 @@ public:
 		UINT width;
 		UINT height;
 	};
-	enum struct MoveMode {
-		Content, // 移动content
-		Viewport // 移动viewport
+	enum struct ScrollMode {
+		MoveContent, // 移动content
+		MoveViewport // 移动viewport
 	};
 	enum struct Direction {
 		Vertical,		// 垂直
@@ -111,14 +110,20 @@ public:
 	struct Properties : public WidgetProperties {
 		Rect viewportRect = {};
 		Rect contentRect = {};
-		MoveMode moveMode;
+		ScrollMode moveMode;
 		float multiplyAlpha = 1.0f;
 		bool charOnly = false;
 		Pixel::BlendMode blendMode = Pixel::BlendMode::Replace;
 
 		Properties() = default;
-		Properties(Rect viewport, Rect contentRect, MoveMode moveMode = MoveMode::Viewport, float multiplyAlpha = 1.0f, bool charOnly = false, Pixel::BlendMode blendMode = Pixel::BlendMode::Replace)
-			: viewportRect(viewport), contentRect(contentRect), moveMode(moveMode), multiplyAlpha(multiplyAlpha), charOnly(charOnly), blendMode(blendMode) {};
+		Properties(Rect viewport, Rect contentRect, ScrollMode moveMode = ScrollMode::MoveViewport, float multiplyAlpha = 1.0f, bool charOnly = false, Pixel::BlendMode blendMode = Pixel::BlendMode::Replace)
+			: viewportRect(viewport), contentRect(contentRect), moveMode(moveMode), multiplyAlpha(multiplyAlpha), charOnly(charOnly), blendMode(blendMode) {
+			if (contentRect.width < viewportRect.width || contentRect.height < viewportRect.height) {
+				Logger("Viewport::Properties").warn("content.size is smaller than viewport.size (Content[",
+					contentRect.width, " , ", contentRect.height, "], Viewport[",
+					viewportRect.width, " , ", viewportRect.height, "])");
+			}
+		};
 	};
 	class Style : public WidgetStyle {
 	protected:
@@ -157,7 +162,7 @@ public:
 			auto& vscrollProp = *viewport->verticalScrollbar.getProperties<Scrollbar::Properties>();
 			int judgeX, judgeY;
 			UINT judgeWidth, judgeHeight;
-			if (prop.moveMode == MoveMode::Content) {
+			if (prop.moveMode == ScrollMode::MoveContent) {
 				judgeX = prop.viewportRect.x;
 				judgeY = prop.viewportRect.y;
 				judgeWidth = prop.viewportRect.x + prop.viewportRect.width;
@@ -185,7 +190,7 @@ public:
 					int maxX = prop.contentRect.width - prop.viewportRect.width;
 					int maxY = prop.contentRect.height - prop.viewportRect.height;
 					// 根据当前的移动模式更新视口或内容
-					if (prop.moveMode == MoveMode::Content) {
+					if (prop.moveMode == ScrollMode::MoveContent) {
 
 						prop.contentRect.x = std::clamp(prop.contentRect.x + dx, 0, maxX);
 						prop.contentRect.y = std::clamp(prop.contentRect.y + dy, 0, maxY);
@@ -213,7 +218,7 @@ public:
 			int maxY = prop.contentRect.height - prop.viewportRect.height;
 			switch (direction) {
 			case Direction::Horizontal: {
-				if (prop.moveMode == MoveMode::Content) {
+				if (prop.moveMode == ScrollMode::MoveContent) {
 					// 移动内容：根据滚动条的进度更新内容位置
 					int newX = static_cast<int>(scrollBar->getSliderProgress() * maxX);
 					prop.contentRect.x = std::clamp(newX, 0, maxX);
@@ -226,7 +231,7 @@ public:
 				break;
 			}
 			case Direction::Vertical: {
-				if (prop.moveMode == MoveMode::Content) {
+				if (prop.moveMode == ScrollMode::MoveContent) {
 					// 移动内容：根据滚动条的进度更新内容位置
 					int newY = static_cast<int>(scrollBar->getSliderProgress() * maxY);
 					prop.contentRect.y = std::clamp(newY, 0, maxY);
@@ -247,7 +252,7 @@ public:
 			int maxY = prop.contentRect.height - prop.viewportRect.height;
 			switch (args->wheel.Direction) {
 			case MouseWheelArgs::Horizontal: {
-				if (prop.moveMode == MoveMode::Content) {
+				if (prop.moveMode == ScrollMode::MoveContent) {
 					// 移动内容：根据鼠标滚轮的垂直滚动更新内容位置
 					int newX = prop.contentRect.x - static_cast<int>(args->wheel.Delta);
 					prop.contentRect.x = std::clamp(newX, 0, maxX);
@@ -262,7 +267,7 @@ public:
 				break;
 			}
 			case MouseWheelArgs::Vertical: {
-				if (prop.moveMode == MoveMode::Content) {
+				if (prop.moveMode == ScrollMode::MoveContent) {
 					// 移动内容：根据鼠标滚轮的垂直滚动更新内容位置
 					int newY = prop.contentRect.y - static_cast<int>(args->wheel.Delta);
 					prop.contentRect.y = std::clamp(newY, 0, maxY);
@@ -284,9 +289,9 @@ public:
 		}
 	};
 protected:
-	ScreenA screen;
+	ScreenA internalScreen;
 	CanvasA canvas;
-	LogOverlay* logger;
+	Logger* logger;
 	Displayer* display;
 
 	BufferDispatcherA dispatcher;
@@ -295,12 +300,12 @@ protected:
 
 public:
 	Viewport()
-		: screen(nullptr), dispatcher(nullptr) {
+		: internalScreen(nullptr), dispatcher(nullptr) {
 	};
 	[[deprecated]] void Init() override {};
-	virtual void Init(ScreenA* screen, LogOverlay* logger, Displayer* display) {
-		this->screen.sendSignal(ScreenA::Signal::SetBlender, &screen->getBlender());
-		this->canvas.attach(&this->screen);
+	virtual void Init(ScreenA* screen, Logger* logger, Displayer* display) {
+		this->internalScreen.sendSignal(ScreenA::Signal::SetBlender, &screen->getBlender());
+		this->canvas.attach(&this->internalScreen);
 		this->logger = logger;
 		this->display = display;
 		dispatcher.attach(screen);
@@ -348,11 +353,11 @@ public:
 		auto& prop = *getProperties<Properties>();
 		auto& hscrollProp = *horizontalScrollbar.getProperties<Scrollbar::Properties>();
 		auto& vscrollProp = *verticalScrollbar.getProperties<Scrollbar::Properties>();
-		this->screen.resize(prop.contentRect.width, prop.contentRect.height);
-		animator.DrawUnified(&this->screen, &this->canvas, static_cast<void*>(this));
+		this->internalScreen.resize(prop.contentRect.width, prop.contentRect.height);
+		animator.DrawUnified(&this->internalScreen, &this->canvas, static_cast<void*>(this));
 		//animator.DrawUnified(&screen, &canvas, static_cast<void*>(this));
-		logger->Render(screen, canvas);
-		dispatcher.SendBufferData(this->screen.getBuffer(), prop.viewportRect.x, prop.viewportRect.y,
+		logger->LogOverlayRender(screen, canvas);
+		dispatcher.SendBufferData(this->internalScreen.getBuffer(), prop.viewportRect.x, prop.viewportRect.y,
 			prop.contentRect.x, prop.contentRect.x + prop.contentRect.width + vscrollProp.Width, prop.contentRect.y, prop.contentRect.y + prop.contentRect.height + hscrollProp.Height,
 			prop.charOnly, prop.blendMode, prop.multiplyAlpha
 		);
@@ -369,7 +374,7 @@ public:
 		auto& prop = *getProperties<Viewport::Properties>();
 		auto& hscrollProp = *horizontalScrollbar.getProperties<Scrollbar::Properties>();
 		auto& vscrollProp = *verticalScrollbar.getProperties<Scrollbar::Properties>();
-		if (prop.moveMode == MoveMode::Content) {
+		if (prop.moveMode == ScrollMode::MoveContent) {
 			hscrollProp.X = prop.viewportRect.x;
 			hscrollProp.Y = prop.viewportRect.y + prop.viewportRect.height;
 			hscrollProp.Width = prop.viewportRect.width;
@@ -402,7 +407,7 @@ public:
 		prop.contentRect = { contentX ,contentY ,contentWidth,contentHeight };
 	}
 
-	void setMoveMode(MoveMode mode) {
+	void setMoveMode(ScrollMode mode) {
 		getProperties<Properties>()->moveMode = mode;
 	}
 
@@ -447,7 +452,7 @@ public:
 
 	Rect getContentRect() { return getProperties<Properties>()->contentRect; }
 
-	MoveMode getMoveMode() { return getProperties<Properties>()->moveMode; }
+	ScrollMode getMoveMode() { return getProperties<Properties>()->moveMode; }
 
 	Pixel::BlendMode getBlendMode() { return getProperties<Properties>()->blendMode; }
 

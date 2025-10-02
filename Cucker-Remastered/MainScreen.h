@@ -146,7 +146,7 @@ private:
 	int RectColumnX = 10;
     Cube cube;
 public:
-	void Creation(ScreenA* screen, CanvasA* canvas, LogOverlay* logger, Displayer* display) override {
+	void Creation(ScreenA* screen, CanvasA* canvas, Logger* logger, Displayer* display) override {
 		Interface::Creation(screen, canvas, logger, display);
         cube.Creation();
         screen->sendSignal(ScreenA::Signal::SetBasePixel, &baseColor);
